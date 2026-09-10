@@ -607,7 +607,7 @@ a:hover { color: var(--gold); }
 /* --------------------------------------------------- 回紋 key-fret band */
 .fret-band {
   height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%23b08d57%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%239e2b25%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
   background-repeat: repeat-x;
   background-position: center;
   opacity: .55;
@@ -626,7 +626,7 @@ a:hover { color: var(--gold); }
   width: 2.75rem; aspect-ratio: 1;
   color: var(--red); opacity: .8;
 }
-.section__flower--peony { color: var(--gold); opacity: .85; }
+.section__flower--peony { color: var(--red); opacity: .8; }
 
 /* ------------------------------------------------------- card brackets */
 .card { position: relative; overflow: hidden; }
@@ -656,14 +656,14 @@ a:hover { color: var(--gold); }
 .site-footer { position: relative; }
 .site-footer::before {
   content: ""; position: absolute; inset: 0 0 auto; height: 20px;
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%23b08d57%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%23c2685f%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
   background-repeat: repeat-x; background-position: center;
-  opacity: .3;
+  opacity: .45;
 }
 .footer__knot {
   display: block; margin: 0 auto 1.5rem;
   width: 3.25rem; aspect-ratio: 100 / 140;
-  color: var(--gold-soft);
+  color: var(--red-soft);
 }
 .footer__blessing {
   display: flex; flex-direction: column; align-items: center; gap: .5rem;
@@ -676,4 +676,27 @@ a:hover { color: var(--gold); }
 .footer__blessing-gloss {
   font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
   color: rgba(250, 247, 242, .45);
+}
+
+
+/* ---------------------------------------------------- the couple's names */
+.hero__names-cn, .footer__names-cn {
+  font-family: "Noto Serif TC", "PingFang TC", "Heiti TC", "Songti TC",
+               "Microsoft JhengHei", "Source Han Serif TC", serif;
+  font-weight: 400;
+}
+.hero__names-cn {
+  margin: .9rem 0 0;
+  font-size: clamp(1.15rem, 3.4vw, 1.65rem);
+  letter-spacing: .3em; text-indent: .3em;
+  color: var(--ink);
+}
+.footer__names-cn {
+  margin: .55rem 0 1.4rem;
+  font-size: 1.2rem;
+  letter-spacing: .3em; text-indent: .3em;
+  color: rgba(250, 247, 242, .78);
+}
+.hero__names-cn .sep, .footer__names-cn .sep {
+  color: var(--gold); letter-spacing: 0; margin: 0 .15em;
 }

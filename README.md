@@ -24,9 +24,8 @@ long as any of them remain.
 | 3 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
 | 4 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
 | 5 | **FAQ answers** — RSVP deadline, parking, plus-ones, children, transit, contact | `index.html` → `#faq` section |
-| 6 | **Chinese names** — the names are romanised because their characters weren't provided | `index.html` (`.hero__name`, `.footer__names`) and `assets/js/i18n.js` (`hero.surnames`) |
-| 7 | **Photos** | see [Gallery](#gallery) below |
-| 8 | **RSVP destination** | see [RSVP](#rsvp) below |
+| 6 | **Photos** | see [Gallery](#gallery) below |
+| 7 | **RSVP destination** | see [RSVP](#rsvp) below |
 
 Each item has a Chinese counterpart with the same bracketed placeholder in
 `assets/js/i18n.js`. Update both.
@@ -95,11 +94,11 @@ network requests, scale to any size, and take their colour from CSS.
 |---|---|---|
 | 囍 double happiness | the wedding character — 喜 doubled, one for each family | large watermark behind the hero, the red seal between the hero rules, faintly on the ceremony row of the schedule, and the favicon |
 | 燈籠 red lanterns | celebration, warding off bad luck | hanging in the hero, swaying slowly |
-| 牡丹 peony | wealth and honour; the flower of prosperity | above **Our Story** |
+| 牡丹 peony | wealth and honour; the flower of prosperity | above **Our Story**, in red |
 | 春仔花 | the wound red silk-thread flowers a Taiwanese bride and her mother wear in their hair — distinctly Taiwanese rather than generally Chinese | above **RSVP** |
-| 盤長結 endless knot | no beginning and no end | above the names in the footer |
+| 盤長結 endless knot | no beginning and no end | above the names in the footer, in red — Chinese knots are red silk cord |
 | 祥雲 auspicious clouds | good fortune arriving | the rule under every section heading |
-| 回紋 key fret | an unbroken line; continuity | the band below the hero and along the top of the footer |
+| 回紋 key fret | an unbroken line; continuity | the red band below the hero and along the top of the footer |
 | 百年好合 | "a hundred years of harmony" — a standard wedding blessing | the footer, with an English gloss |
 
 ### Notes
@@ -108,10 +107,13 @@ network requests, scale to any size, and take their colour from CSS.
   than hand-drawn rectangles, and the page already loads Noto Serif TC for the
   Chinese side. `.xi` falls back through PingFang TC, Heiti TC, Songti TC and
   Microsoft JhengHei, so any machine with a CJK font renders it.
-- Auspicious red (`--red`) is an **accent**, not a takeover — it appears on the
-  lanterns, the 囍 marks and the two flowers, against the existing ivory, sage
-  and gold. To dial it up or down, change `--red` at the top of the ornament
-  block in `styles.css`.
+- Auspicious red (`--red`) carries the lanterns, the 囍 marks, both flowers,
+  the key-fret bands and the knot. Gold is kept for the 祥雲 clouds under each
+  section heading and the corner brackets, so the two colours stay in
+  conversation rather than one flooding the page. To shift the balance, change
+  `--red` at the top of the ornament block in `styles.css`, or swap a single
+  ornament's `color`.
+- The couple's names are set in ink, not red — they are names, not ornament.
 - Every ornament is `aria-hidden`, outside the tab order, and `pointer-events:
   none` where it overlaps content. Screen readers skip all of it.
 - The lanterns and the lower corner brackets are hidden below 34em, where they
@@ -179,6 +181,12 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
 - **Gallery** with a keyboard-navigable lightbox (←/→ to move, Esc to close)
 - **FAQ** as expandable questions
 - **RSVP** form
+
+### The couple's names
+
+王柏翔 and 朱素怡 appear under the romanised names in the hero, in the footer,
+in the page `<title>`, and on the social share card. They are marked
+`lang="zh-Hant"` so screen readers switch voice for them.
 
 ### Bilingual
 
