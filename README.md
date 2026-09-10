@@ -85,6 +85,37 @@ long edge so the page stays quick to load.
 
 ---
 
+## The calendar file
+
+`assets/wedding.ics` is a real file guests download from the "Add to calendar"
+button in the Details section. Apple Calendar, Google Calendar, Outlook and
+most phone calendars import it directly.
+
+It pins the event to `America/Los_Angeles` and ships the timezone rules inside
+the file, so it reads as **6:00 PM Pacific** regardless of the guest's own
+settings — family watching from Taiwan will see it land correctly at 9:00 AM
+Saturday their time. Two reminders are built in: one the day before, one two
+hours ahead.
+
+The button is a plain link with a `download` attribute, so it works with
+JavaScript disabled.
+
+**If the date, time, or venue ever changes, edit this file too.** It is
+deliberately not generated from the page, so the two can drift apart:
+
+| Change | Also update |
+|---|---|
+| Date or time | `DTSTART` / `DTEND` in `assets/wedding.ics`, `WEDDING_ISO` in `assets/js/main.js`, and the hero and Details text in `index.html` |
+| Venue | `LOCATION` and `DESCRIPTION` in `assets/wedding.ics` |
+
+Bump `SEQUENCE:0` to `SEQUENCE:1` (and so on) whenever you change it after
+guests have started importing — calendar apps use that number to decide
+whether to accept an update to an event someone already has.
+
+The file is written to RFC 5545: CRLF line endings, lines folded at 75 octets,
+and commas escaped inside text values. If you hand-edit it, keep those intact —
+an unescaped comma in `LOCATION` splits the address into several values.
+
 ## Running it locally
 
 ```bash
@@ -106,7 +137,7 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
 - **Hero** with the names, date, and a live countdown to 6:00 PM on 23 Oct 2026
 - **Our Story** — four beats on a timeline
 - **The Details** — when, where, dress code, an embedded map, and an
-  "Add to calendar" button that generates a `.ics` file in the browser
+  "Add to calendar" button serving [`assets/wedding.ics`](#the-calendar-file)
 - **Schedule** for the evening
 - **Gallery** with a keyboard-navigable lightbox (←/→ to move, Esc to close)
 - **FAQ** as expandable questions
@@ -141,6 +172,7 @@ index.html                  the whole page
 assets/css/styles.css       all styling; palette tokens at the top in :root
 assets/js/i18n.js           繁體中文 translations
 assets/js/main.js           behaviour + the constants you need to configure
+assets/wedding.ics          the calendar file the "Add to calendar" button serves
 assets/img/gallery/         placeholder photos
 assets/img/favicon.svg      browser tab icon
 assets/img/og-image.svg     link preview card

@@ -17,11 +17,10 @@
   // Used for the mailto fallback above, and worth filling in either way.
   var CONTACT_EMAIL = "";
 
-  // The wedding itself. October is still PDT (UTC-7) in 2026.
-  var WEDDING_ISO   = "2026-10-23T18:00:00-07:00";
-  var WEDDING_END   = "2026-10-23T23:00:00-07:00";
-  var VENUE_ADDRESS = "3199 Powell St, Emeryville, CA 94608";
-  var MAP_URL       = "https://maps.app.goo.gl/XZWvtAWs9UGRuyM69";
+  // The wedding itself, for the countdown. October is still PDT (UTC-7) in 2026.
+  // If this ever changes, change assets/wedding.ics to match — the "Add to
+  // calendar" button serves that file directly and is not generated from here.
+  var WEDDING_ISO = "2026-10-23T18:00:00-07:00";
 
   // Gallery. Swap these for your own files in assets/img/gallery/.
   // `caption` is optional; `alt` should describe the photo for screen readers.
@@ -203,35 +202,6 @@
 
     tick();
     var timer = setInterval(tick, 1000);
-  }
-
-  /* ---------------------------------------------------------------------
-     Add to calendar (.ics generated in the browser)
-     --------------------------------------------------------------------- */
-  var calBtn = $("#add-to-calendar");
-  if (calBtn) {
-    var utc = function (iso) {
-      return new Date(iso).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
-    };
-
-    var ics = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//Bo-Shiang and Suyi//Wedding//EN",
-      "CALSCALE:GREGORIAN",
-      "BEGIN:VEVENT",
-      "UID:wedding-2026-10-23@boshiang-and-suyi",
-      "DTSTAMP:" + utc(new Date().toISOString()),
-      "DTSTART:" + utc(WEDDING_ISO),
-      "DTEND:" + utc(WEDDING_END),
-      "SUMMARY:Bo-Shiang & Suyi's Wedding",
-      "LOCATION:" + VENUE_ADDRESS,
-      "DESCRIPTION:We can't wait to celebrate with you. " + MAP_URL,
-      "END:VEVENT",
-      "END:VCALENDAR"
-    ].join("\r\n");
-
-    calBtn.setAttribute("href", "data:text/calendar;charset=utf-8," + encodeURIComponent(ics));
   }
 
   /* ---------------------------------------------------------------------
