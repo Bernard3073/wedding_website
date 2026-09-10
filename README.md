@@ -25,7 +25,7 @@ long as any of them remain.
 | 4 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
 | 5 | **FAQ answers** — RSVP deadline, parking, plus-ones, children, transit, contact | `index.html` → `#faq` section |
 | 6 | **Photos** | see [Gallery](#gallery) below |
-| 7 | **RSVP destination** | see [RSVP](#rsvp) below |
+| 7 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
 
 Each item has a Chinese counterpart with the same bracketed placeholder in
 `assets/js/i18n.js`. Update both.
@@ -38,29 +38,83 @@ When everything is filled in:
 
 ---
 
-## RSVP
+## Collecting and counting RSVPs
 
-Open `assets/js/main.js` and set the two constants at the top:
+Until you do this, the form has nowhere to send anything. Two options.
 
-```js
-var RSVP_ENDPOINT = "";   // a form endpoint that accepts a POST
-var CONTACT_EMAIL = "";   // shown to guests, and used by the email fallback
-```
+### Recommended: a Google Sheet you own
 
-**With an endpoint set**, the form POSTs JSON and shows a thank-you inline.
-Anything that accepts a POST works — [Formspree](https://formspree.io),
-[Basin](https://usebasin.com), [Getform](https://getform.io), Netlify Forms,
-or a Google Apps Script web app writing into a Sheet.
+Free, no submission limit, and you get a spreadsheet with a live headcount.
+`rsvp/Code.gs` in this repo is the whole backend.
 
-**With `RSVP_ENDPOINT` empty** (the default), submitting opens the guest's mail
-client with the answers pre-filled, addressed to `CONTACT_EMAIL`. If both are
-empty the form shows an error, so set at least one before you share the link.
+1. Create a new Google Sheet — this is where replies will land.
+2. **Extensions → Apps Script**. Delete the stub, paste in all of
+   `rsvp/Code.gs`, and save.
+3. *(Optional)* Set `NOTIFY_EMAIL` at the top of the script to your address to
+   get an email, with the running headcount, each time someone replies.
+4. **Deploy → New deployment → Web app**, with:
+   - *Execute as*: **Me**
+   - *Who has access*: **Anyone** — this one matters. "Anyone with a Google
+     account" forces your guests to sign in, and most will give up.
+5. Authorise it. Google will warn about an unverified app; it's your own
+   script, so **Advanced → Go to (project name)** and allow it.
+6. Copy the Web app URL — it ends in `/exec` — and paste it into
+   `RSVP_ENDPOINT` in `assets/js/main.js`. Commit and push.
+7. Send yourself a test RSVP and check it appears in the Sheet.
 
-The form validates name, email and attendance in-browser, only asks about
-guest count and meals when someone is actually coming, and carries a honeypot
-field that silently swallows bot submissions.
+**If you edit the script later**, re-deploy as a *new version*
+(Deploy → Manage deployments → pencil icon → Version: New version). Saving
+alone does not change what the live URL runs.
 
----
+### The count
+
+The script creates two tabs. **Summary** is the one you'll live in:
+
+| | |
+|---|---|
+| **Headcount (people attending)** | the number you give the caterer — it sums the guest counts, not the replies |
+| Parties attending / declined | how many invitations have said yes and no |
+| Replies received | how many have answered at all |
+| Vegetarian / seafood / halal / no preference | meal split, for the kitchen |
+| With dietary notes | how many wrote something in the allergies field |
+
+**RSVPs** holds one row per guest — name, email, attending, guest count, meal,
+dietary notes, song request, message, and when they replied.
+
+Two things worth knowing:
+
+- **Replying twice does not double-count.** The script matches on email
+  address, so someone who changes their mind updates their existing row. The
+  `Updated` column records when.
+- **Guests who text you instead can just be typed in.** Add a row to the RSVPs
+  tab by hand; Summary is formula-driven and picks it up immediately.
+
+To see who hasn't replied, keep your invite list in a third tab and
+`VLOOKUP` against column C.
+
+### The simpler alternative
+
+If you'd rather not touch Apps Script, [Formspree](https://formspree.io),
+[Basin](https://usebasin.com) and [Getform](https://getform.io) all give you a
+URL to drop into `RSVP_ENDPOINT`. They email you each reply and show a
+dashboard — but you'll be adding the guest counts up yourself, and free tiers
+cap submissions (Formspree's is 50/month, which a wedding can pass).
+
+### If you set neither
+
+With `RSVP_ENDPOINT` empty, submitting opens the guest's mail client with the
+answers pre-filled, addressed to `CONTACT_EMAIL`. It works, but it depends on
+each guest actually pressing send in whatever mail app opens — fine as a
+stopgap, not something to run a wedding on. If both constants are empty the
+form just shows an error, so set at least one before you share the link.
+
+### About the request
+
+The form posts `FormData`, not JSON, on purpose: `multipart/form-data` is a
+CORS-simple content type, so the browser sends no preflight `OPTIONS` request.
+Apps Script web apps do not answer preflights, so a JSON post fails against
+them. If you swap in a service that requires JSON, that's the line to change
+in `assets/js/main.js`.
 
 ## Gallery
 
@@ -217,6 +271,7 @@ index.html                  the whole page
 assets/css/styles.css       all styling; palette tokens at the top in :root
 assets/js/i18n.js           繁體中文 translations
 assets/js/main.js           behaviour + the constants you need to configure
+rsvp/Code.gs                Google Apps Script that collects RSVPs into a Sheet
 assets/wedding.ics          the calendar file the "Add to calendar" button serves
 assets/img/gallery/         placeholder photos
 assets/img/favicon.svg      browser tab icon

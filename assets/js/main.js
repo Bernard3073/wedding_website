@@ -9,8 +9,9 @@
      CONFIGURE ME
      --------------------------------------------------------------------- */
 
-  // Where RSVPs go. Paste a form endpoint (Formspree, Basin, Getform,
-  // Netlify Forms, a Google Apps Script web app…) that accepts a POST.
+  // Where RSVPs go. Paste the /exec URL of the Google Apps Script in
+  // rsvp/Code.gs (see "Collecting and counting RSVPs" in README.md), or any
+  // form endpoint that accepts a POST — Formspree, Basin, Getform.
   // Leave it empty and the form falls back to opening a pre-filled email.
   var RSVP_ENDPOINT = "";
 
@@ -382,10 +383,18 @@
       submitBtn.disabled = true;
       say(t("rsvp.sending"), null);
 
+      // Sent as FormData on purpose. multipart/form-data is a CORS-simple
+      // content type, so the browser issues no preflight OPTIONS request —
+      // which Google Apps Script web apps do not answer. "Accept" is a
+      // safelisted header, so adding it does not trigger one either.
+      // Formspree, Basin and Getform all take a form post too.
+      var payload = new FormData();
+      Object.keys(data).forEach(function (k) { payload.append(k, data[k]); });
+
       fetch(RSVP_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Accept": "application/json" },
-        body: JSON.stringify(data)
+        headers: { "Accept": "application/json" },
+        body: payload
       })
         .then(function (res) {
           if (!res.ok) throw new Error("HTTP " + res.status);
