@@ -510,3 +510,170 @@ a:hover { color: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
 }
+
+
+/* ==========================================================================
+   Taiwanese wedding ornaments
+   囍 double happiness, 牡丹 peony, 春仔花 silk-thread flowers, 盤長結 the
+   endless knot, 燈籠 lanterns, 祥雲 clouds and a 回紋 key-fret band.
+   Auspicious red is used sparingly — as an accent against the existing
+   ivory and gold, not as a takeover.
+   ========================================================================== */
+
+:root {
+  --red:      #9e2b25;
+  --red-deep: #7d211c;
+  --red-soft: #c2685f;
+}
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+/* Shapes inside the symbols set no fill of their own, so without this they
+   paint black instead of taking the ornament's colour. Groups that are
+   meant to be outlines carry fill="none" and are unaffected. */
+.hero__corner, .hero__lantern, .card__corner,
+.section__flower, .footer__knot { fill: currentColor; }
+
+/* 囍 relies on a CJK face; every desktop and phone OS ships at least one of
+   these, and Noto Serif TC is already loaded for the Chinese side. */
+.xi, .hero__watermark, .timeline__xi, .footer__blessing-cn {
+  font-family: "Noto Serif TC", "PingFang TC", "Heiti TC", "Songti TC",
+               "Microsoft JhengHei", "Source Han Serif TC", serif;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------- hero ornaments */
+.hero__ornaments {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+
+.hero__watermark {
+  position: absolute; left: 50%; top: 41%;
+  transform: translate(-50%, -50%);
+  font-size: clamp(12rem, 30vw, 22rem);
+  color: var(--red);
+  opacity: .042;
+  user-select: none;
+}
+
+.hero__corner {
+  position: absolute;
+  width: clamp(3rem, 7vw, 5.5rem); aspect-ratio: 1;
+  color: var(--gold); opacity: .5;
+}
+.hero__corner--tl { top: clamp(1rem, 3vw, 2.25rem); left:  clamp(1rem, 3vw, 2.25rem); }
+.hero__corner--tr { top: clamp(1rem, 3vw, 2.25rem); right: clamp(1rem, 3vw, 2.25rem); transform: scaleX(-1); }
+.hero__corner--bl { bottom: clamp(1rem, 3vw, 2.25rem); left:  clamp(1rem, 3vw, 2.25rem); transform: scaleY(-1); }
+.hero__corner--br { bottom: clamp(1rem, 3vw, 2.25rem); right: clamp(1rem, 3vw, 2.25rem); transform: scale(-1); }
+
+.hero__lantern {
+  position: absolute; top: 0;
+  width: clamp(2.5rem, 4vw, 3.5rem);
+  aspect-ratio: 60 / 104;
+  color: var(--red);
+  transform-origin: 50% 0;
+  animation: sway 7s ease-in-out infinite;
+}
+.hero__lantern--l { left:  clamp(4rem, 21vw, 15rem); }
+.hero__lantern--r { right: clamp(4rem, 21vw, 15rem); animation-delay: -3.5s; }
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50%      { transform: rotate(2.5deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero__lantern { animation: none; }
+}
+
+/* the lanterns and corners crowd the names on a narrow screen, and the
+   watermark sits proportionally larger there — ease both off */
+@media (max-width: 34em) {
+  .hero__lantern, .hero__corner--bl, .hero__corner--br { display: none; }
+  .hero__watermark { font-size: 9.5rem; opacity: .032; }
+}
+
+.hero__rule {
+  gap: clamp(1.25rem, 4vw, 2.25rem);
+}
+.hero__rule .xi {
+  font-size: 2.9em;
+  color: var(--red);
+  font-style: normal;
+  opacity: .9;
+}
+
+/* --------------------------------------------------- 回紋 key-fret band */
+.fret-band {
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%23b08d57%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
+  opacity: .55;
+}
+
+/* ------------------------------------------------ 祥雲 under section titles */
+.section__title::after {
+  width: 7.5rem; height: 2.2rem;
+  background: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27120%27%20height%3D%2744%27%20viewBox%3D%270%200%20120%2044%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27%23b08d57%27%20stroke-width%3D%272.4%27%20stroke-linecap%3D%27round%27%3E%3Cpath%20d%3D%27M4%2040%20C4%2030%2011%2024%2020%2025%20C22%2015%2031%209%2040%2012%20C45%204%2057%203%2063%2010%20C72%205%2084%2010%2086%2020%20C95%2019%20102%2026%20101%2035%20C101%2038%20104%2040%20108%2040%27%2F%3E%3Cpath%20d%3D%27M24%2040%20a7%207%200%201%201%207%20-7%20a3.5%203.5%200%201%201%20-3.5%20-3.5%27%2F%3E%3Cpath%20d%3D%27M56%2040%20a7%207%200%201%201%207%20-7%20a3.5%203.5%200%201%201%20-3.5%20-3.5%27%2F%3E%3Cpath%20d%3D%27M88%2040%20a7%207%200%201%201%207%20-7%20a3.5%203.5%200%201%201%20-3.5%20-3.5%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") center / contain no-repeat;
+  margin-top: 1rem;
+}
+
+/* ------------------------------------------ flower marks above a heading */
+.section__flower {
+  display: block; margin: 0 auto 1rem;
+  width: 2.75rem; aspect-ratio: 1;
+  color: var(--red); opacity: .8;
+}
+.section__flower--peony { color: var(--gold); opacity: .85; }
+
+/* ------------------------------------------------------- card brackets */
+.card { position: relative; overflow: hidden; }
+.card__corner {
+  position: absolute; top: .6rem; left: .6rem;
+  width: 1.75rem; aspect-ratio: 1;
+  color: var(--gold); opacity: .45;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------- 囍 on the ceremony row */
+.timeline__item--key { position: relative; }
+.timeline__xi {
+  position: absolute; right: .5rem; top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.75rem;
+  color: var(--red);
+  opacity: .13;
+  pointer-events: none;
+}
+.timeline__item--key .timeline__time { color: var(--red); }
+.timeline__item--key {
+  background: linear-gradient(90deg, rgba(158, 43, 37, .06), transparent 72%);
+}
+
+/* ------------------------------------------------------------- footer */
+.site-footer { position: relative; }
+.site-footer::before {
+  content: ""; position: absolute; inset: 0 0 auto; height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%2728%27%20height%3D%2720%27%20viewBox%3D%270%200%2028%2020%27%3E%3Cpath%20d%3D%27M0%2019%20V5%20H23%20V15%20H9%20V9%20H17%27%20fill%3D%27none%27%20stroke%3D%27%23b08d57%27%20stroke-width%3D%272.2%27%2F%3E%3C%2Fsvg%3E");
+  background-repeat: repeat-x; background-position: center;
+  opacity: .3;
+}
+.footer__knot {
+  display: block; margin: 0 auto 1.5rem;
+  width: 3.25rem; aspect-ratio: 100 / 140;
+  color: var(--gold-soft);
+}
+.footer__blessing {
+  display: flex; flex-direction: column; align-items: center; gap: .5rem;
+  margin: 0 0 1.25rem;
+}
+.footer__blessing-cn {
+  font-size: 1.6rem; letter-spacing: .35em; text-indent: .35em;
+  color: var(--gold-soft);
+}
+.footer__blessing-gloss {
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(250, 247, 242, .45);
+}

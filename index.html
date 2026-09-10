@@ -31,6 +31,123 @@
   <button type="button" class="draft-banner__close" id="draft-dismiss" aria-label="Dismiss this notice">&times;</button>
 </div>
 
+
+<!-- ==========================================================================
+     Ornament sprite — Taiwanese wedding motifs, referenced with <use> below.
+     Every one is decorative: aria-hidden, and never in the tab order.
+     囍 (double happiness) is set as a font glyph instead, in .xi — the
+     character carries far more grace than paths can, and the page already
+     loads Noto Serif TC for the Chinese side.
+     ========================================================================== -->
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
+
+  <!-- 牡丹 peony — wealth and honour -->
+  <path id="peony-petal" d="M0 0 C-15 -10 -19 -27 -9 -37 C-3 -43 3 -43 9 -37 C19 -27 15 -10 0 0 Z"/>
+  <symbol id="orn-peony" viewBox="0 0 100 100">
+    <g transform="translate(50 52)">
+      <g fill-opacity=".34">
+        <use href="#peony-petal" transform="rotate(0)   scale(1.15)"/>
+        <use href="#peony-petal" transform="rotate(60)  scale(1.15)"/>
+        <use href="#peony-petal" transform="rotate(120) scale(1.15)"/>
+        <use href="#peony-petal" transform="rotate(180) scale(1.15)"/>
+        <use href="#peony-petal" transform="rotate(240) scale(1.15)"/>
+        <use href="#peony-petal" transform="rotate(300) scale(1.15)"/>
+      </g>
+      <g fill-opacity=".68">
+        <use href="#peony-petal" transform="rotate(30)  scale(.78)"/>
+        <use href="#peony-petal" transform="rotate(102) scale(.78)"/>
+        <use href="#peony-petal" transform="rotate(174) scale(.78)"/>
+        <use href="#peony-petal" transform="rotate(246) scale(.78)"/>
+        <use href="#peony-petal" transform="rotate(318) scale(.78)"/>
+      </g>
+      <g>
+        <use href="#peony-petal" transform="rotate(0)   scale(.4)"/>
+        <use href="#peony-petal" transform="rotate(120) scale(.4)"/>
+        <use href="#peony-petal" transform="rotate(240) scale(.4)"/>
+      </g>
+    </g>
+  </symbol>
+
+  <!-- 春仔花 — the red silk-thread flowers a Taiwanese bride and her
+       mother wear in their hair; wound, not cut, hence the looped petals -->
+  <symbol id="orn-chunzihua" viewBox="0 0 100 100">
+    <g transform="translate(50 53)">
+      <g fill-opacity=".92">
+        <path id="cz-loop" d="M0 -4 C-13 -12 -16 -26 -8 -33 C-3 -37 3 -37 8 -33 C16 -26 13 -12 0 -4 Z"/>
+        <use href="#cz-loop" transform="rotate(72)"/>
+        <use href="#cz-loop" transform="rotate(144)"/>
+        <use href="#cz-loop" transform="rotate(216)"/>
+        <use href="#cz-loop" transform="rotate(288)"/>
+      </g>
+      <g fill="none" stroke="#faf7f2" stroke-width="1.2" opacity=".5">
+        <path id="cz-in" d="M0 -9 C-8 -15 -10 -24 -5 -28 C-1.5 -30.5 1.5 -30.5 5 -28 C10 -24 8 -15 0 -9 Z"/>
+        <use href="#cz-in" transform="rotate(72)"/>
+        <use href="#cz-in" transform="rotate(144)"/>
+        <use href="#cz-in" transform="rotate(216)"/>
+        <use href="#cz-in" transform="rotate(288)"/>
+      </g>
+      <circle r="7"/>
+      <g fill="#faf7f2" opacity=".8">
+        <circle r="1.7" cy="-3"/><circle r="1.7" cx="2.8" cy="1.8"/><circle r="1.7" cx="-2.8" cy="1.8"/>
+      </g>
+    </g>
+  </symbol>
+
+  <!-- 盤長結 the endless knot — no beginning and no end -->
+  <symbol id="orn-knot" viewBox="0 0 100 140">
+    <g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round">
+      <path d="M50 6 v10"/>
+      <g transform="rotate(45 50 52)">
+        <rect x="26" y="28" width="48" height="48" rx="9"/>
+        <rect x="35" y="19" width="30" height="66" rx="13"/>
+        <rect x="17" y="37" width="66" height="30" rx="13"/>
+      </g>
+    </g>
+    <ellipse cx="50" cy="96" rx="9" ry="6"/>
+    <g stroke="currentColor" stroke-width="2.6" stroke-linecap="round">
+      <path d="M44 101 v28"/><path d="M50 101 v33"/><path d="M56 101 v28"/>
+    </g>
+  </symbol>
+
+  <!-- 燈籠 red lantern -->
+  <symbol id="orn-lantern" viewBox="0 0 60 104">
+    <path d="M30 0 v11" stroke="currentColor" stroke-width="2.4"/>
+    <rect x="16" y="10" width="28" height="8" rx="2"/>
+    <ellipse cx="30" cy="46" rx="27" ry="28"/>
+    <g fill="none" stroke="#faf7f2" stroke-width="1.6" opacity=".34">
+      <ellipse cx="30" cy="46" rx="9"  ry="27.5"/>
+      <ellipse cx="30" cy="46" rx="18" ry="27.5"/>
+      <path d="M3 46 h54"/>
+    </g>
+    <rect x="16" y="74" width="28" height="8" rx="2"/>
+    <g stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+      <path d="M24 82 v17"/><path d="M30 82 v21"/><path d="M36 82 v17"/>
+    </g>
+  </symbol>
+
+  <!-- 祥雲 auspicious clouds -->
+  <symbol id="orn-cloud" viewBox="0 0 120 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+      <path d="M4 40 C4 30 11 24 20 25 C22 15 31 9 40 12 C45 4 57 3 63 10
+               C72 5 84 10 86 20 C95 19 102 26 101 35 C101 38 104 40 108 40"/>
+      <path d="M24 40 a7 7 0 1 1 7 -7 a3.5 3.5 0 1 1 -3.5 -3.5"/>
+      <path d="M56 40 a7 7 0 1 1 7 -7 a3.5 3.5 0 1 1 -3.5 -3.5"/>
+      <path d="M88 40 a7 7 0 1 1 7 -7 a3.5 3.5 0 1 1 -3.5 -3.5"/>
+    </g>
+  </symbol>
+
+  <!-- papercut corner bracket, drawn top-left and flipped for the rest -->
+  <symbol id="orn-corner" viewBox="0 0 100 100">
+    <g fill="none" stroke="currentColor" stroke-linecap="square">
+      <path d="M2 56 V2 H56" stroke-width="5"/>
+      <path d="M14 46 V14 H46" stroke-width="2.2" opacity=".6"/>
+    </g>
+    <circle cx="64" cy="6"  r="3.2" opacity=".65"/>
+    <circle cx="6"  cy="64" r="3.2" opacity=".65"/>
+  </symbol>
+
+</defs></svg>
+
 <a class="skip-link" href="#main" data-i18n="nav.skip">Skip to content</a>
 
 <header class="site-header" id="site-header">
@@ -62,6 +179,18 @@
 
   <!-- ========================= HERO ========================= -->
   <section class="hero" id="top">
+
+    <!-- decorative layer: nothing here is content -->
+    <div class="hero__ornaments" aria-hidden="true">
+      <span class="hero__watermark">囍</span>
+      <svg class="hero__corner hero__corner--tl"><use href="#orn-corner"/></svg>
+      <svg class="hero__corner hero__corner--tr"><use href="#orn-corner"/></svg>
+      <svg class="hero__corner hero__corner--bl"><use href="#orn-corner"/></svg>
+      <svg class="hero__corner hero__corner--br"><use href="#orn-corner"/></svg>
+      <svg class="hero__lantern hero__lantern--l"><use href="#orn-lantern"/></svg>
+      <svg class="hero__lantern hero__lantern--r"><use href="#orn-lantern"/></svg>
+    </div>
+
     <div class="hero__frame">
       <p class="hero__eyebrow" data-i18n="hero.eyebrow">Together with their families</p>
 
@@ -73,7 +202,7 @@
 
       <p class="hero__surnames" data-i18n="hero.surnames">Bo-Shiang Wang &amp; Suyi Zhu</p>
 
-      <div class="hero__rule" aria-hidden="true"><span></span>&#10022;<span></span></div>
+      <div class="hero__rule" aria-hidden="true"><span></span><i class="xi">囍</i><span></span></div>
 
       <p class="hero__date">
         <span data-i18n="hero.day">Friday</span>
@@ -98,9 +227,12 @@
     </div>
   </section>
 
+  <div class="fret-band" aria-hidden="true"></div>
+
   <!-- ========================= OUR STORY ========================= -->
   <section class="section section--story" id="story">
     <div class="wrap">
+      <svg class="section__flower section__flower--peony" aria-hidden="true"><use href="#orn-peony"/></svg>
       <p class="section__eyebrow" data-i18n="story.eyebrow">How it began</p>
       <h2 class="section__title" data-i18n="story.title">Our Story</h2>
 
@@ -140,7 +272,7 @@
       <h2 class="section__title" data-i18n="details.title">The Details</h2>
 
       <div class="details">
-        <div class="card">
+        <div class="card"><svg class="card__corner" aria-hidden="true"><use href="#orn-corner"/></svg>
           <h3 class="card__title" data-i18n="details.when">When</h3>
           <p class="card__lead">
             <span data-i18n="details.whenDay">Friday, October 23, 2026</span><br>
@@ -152,7 +284,7 @@
              data-i18n="details.cal">Add to calendar</a>
         </div>
 
-        <div class="card">
+        <div class="card"><svg class="card__corner" aria-hidden="true"><use href="#orn-corner"/></svg>
           <h3 class="card__title" data-i18n="details.where">Where</h3>
           <!-- REPLACE the [ Venue name ] line below with the venue's name -->
           <p class="card__lead">
@@ -164,7 +296,7 @@
           <a class="btn btn--ghost" href="https://maps.app.goo.gl/XZWvtAWs9UGRuyM69" target="_blank" rel="noopener" data-i18n="details.map">Open in Google Maps</a>
         </div>
 
-        <div class="card">
+        <div class="card"><svg class="card__corner" aria-hidden="true"><use href="#orn-corner"/></svg>
           <h3 class="card__title" data-i18n="details.dress">Dress Code</h3>
           <p class="card__lead todo" data-i18n="details.dressLead">[ Cocktail attire ]</p>
           <p class="card__note" data-i18n="details.dressNote">Evenings by the bay get cool and breezy — a jacket or wrap is a good idea.</p>
@@ -201,6 +333,7 @@
           </div>
         </li>
         <li class="timeline__item timeline__item--key">
+          <span class="timeline__xi" aria-hidden="true">囍</span>
           <p class="timeline__time">6:00 PM</p>
           <div class="timeline__body">
             <h3 data-i18n="schedule.2.head">Ceremony</h3>
@@ -309,6 +442,7 @@
   <!-- ========================= RSVP ========================= -->
   <section class="section section--rsvp" id="rsvp">
     <div class="wrap wrap--narrow">
+      <svg class="section__flower" aria-hidden="true"><use href="#orn-chunzihua"/></svg>
       <p class="section__eyebrow" data-i18n="rsvp.eyebrow">We hope you can make it</p>
       <h2 class="section__title" data-i18n="rsvp.title">RSVP</h2>
       <p class="section__lead" data-i18n="rsvp.lead">Kindly reply so we can plan the evening. One form per guest, please.</p>
@@ -390,10 +524,15 @@
 
 <footer class="site-footer">
   <div class="wrap">
+    <svg class="footer__knot" aria-hidden="true"><use href="#orn-knot"/></svg>
     <p class="footer__names">Bo-Shiang &amp; Suyi</p>
     <p class="footer__date">
       <span data-i18n="footer.date">October 23, 2026</span> &middot;
       <span data-i18n="footer.place">Emeryville, California</span>
+    </p>
+    <p class="footer__blessing">
+      <span class="footer__blessing-cn">百年好合</span>
+      <span class="footer__blessing-gloss" data-i18n="footer.blessing">A hundred years of harmony</span>
     </p>
     <p class="footer__thanks" data-i18n="footer.thanks">Thank you for celebrating with us.</p>
   </div>

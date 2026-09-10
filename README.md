@@ -85,6 +85,42 @@ long edge so the page stays quick to load.
 
 ---
 
+## The decorations
+
+Traditional Taiwanese and Chinese wedding motifs, drawn as inline SVG in a
+sprite at the top of `index.html` and referenced with `<use>`. They add no
+network requests, scale to any size, and take their colour from CSS.
+
+| Motif | Meaning | Where it appears |
+|---|---|---|
+| 囍 double happiness | the wedding character — 喜 doubled, one for each family | large watermark behind the hero, the red seal between the hero rules, faintly on the ceremony row of the schedule, and the favicon |
+| 燈籠 red lanterns | celebration, warding off bad luck | hanging in the hero, swaying slowly |
+| 牡丹 peony | wealth and honour; the flower of prosperity | above **Our Story** |
+| 春仔花 | the wound red silk-thread flowers a Taiwanese bride and her mother wear in their hair — distinctly Taiwanese rather than generally Chinese | above **RSVP** |
+| 盤長結 endless knot | no beginning and no end | above the names in the footer |
+| 祥雲 auspicious clouds | good fortune arriving | the rule under every section heading |
+| 回紋 key fret | an unbroken line; continuity | the band below the hero and along the top of the footer |
+| 百年好合 | "a hundred years of harmony" — a standard wedding blessing | the footer, with an English gloss |
+
+### Notes
+
+- **囍 is set as a font glyph, not a path.** The character has far more grace
+  than hand-drawn rectangles, and the page already loads Noto Serif TC for the
+  Chinese side. `.xi` falls back through PingFang TC, Heiti TC, Songti TC and
+  Microsoft JhengHei, so any machine with a CJK font renders it.
+- Auspicious red (`--red`) is an **accent**, not a takeover — it appears on the
+  lanterns, the 囍 marks and the two flowers, against the existing ivory, sage
+  and gold. To dial it up or down, change `--red` at the top of the ornament
+  block in `styles.css`.
+- Every ornament is `aria-hidden`, outside the tab order, and `pointer-events:
+  none` where it overlaps content. Screen readers skip all of it.
+- The lanterns and the lower corner brackets are hidden below 34em, where they
+  would crowd the names, and the hero watermark eases back.
+- The lantern sway respects `prefers-reduced-motion`.
+
+**To remove a motif**, delete its element from `index.html` — the sprite
+`<symbol>` can stay, unused symbols render nothing.
+
 ## The calendar file
 
 `assets/wedding.ics` is a real file guests download from the "Add to calendar"
@@ -134,7 +170,8 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
 
 ## What's on the page
 
-- **Hero** with the names, date, and a live countdown to 6:00 PM on 23 Oct 2026
+- **Hero** with the names, date, a live countdown to 6:00 PM on 23 Oct 2026,
+  and 囍 / lanterns (see [The decorations](#the-decorations))
 - **Our Story** — four beats on a timeline
 - **The Details** — when, where, dress code, an embedded map, and an
   "Add to calendar" button serving [`assets/wedding.ics`](#the-calendar-file)

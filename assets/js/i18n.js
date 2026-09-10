@@ -129,6 +129,7 @@ window.WEDDING_I18N = {
     "rsvp.failed":   "傳送失敗，請稍後再試，或直接與我們聯絡。",
     "rsvp.mailto":   "已為您開啟郵件視窗，請按下寄出，即完成回覆。",
 
+    "footer.blessing": "白頭偕老，永結同心",
     "footer.date":   "2026 年 10 月 23 日",
     "footer.place":  "美國加州 Emeryville",
     "footer.thanks": "謝謝你，與我們一同慶祝這一天。",
@@ -143,6 +144,7 @@ window.WEDDING_I18N = {
     "rsvp.thanksNo": "Thank you for letting us know. You will be missed.",
     "rsvp.failed":   "That didn’t go through. Please try again in a moment, or contact us directly.",
     "rsvp.mailto":   "We’ve opened an email for you — just hit send to complete your RSVP.",
-    "gallery.alt":   "Wedding gallery photo"
+    "gallery.alt":   "Wedding gallery photo",
+    "footer.blessing": "A hundred years of harmony"
   }
 };
