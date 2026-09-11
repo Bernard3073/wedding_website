@@ -103,6 +103,21 @@
   var savedLang = store("wedding-lang");
   setLang(savedLang || browserLang(), Boolean(savedLang));
 
+  // Ask on every visit. The last saved choice (or, first time, the browser's
+  // guess) is already applied behind the dialog and holds focus, so Escape
+  // keeps it.
+  var picker = $("#lang-picker");
+  if (picker && typeof picker.showModal === "function") {
+    picker.addEventListener("close", function () {
+      document.body.style.overflow = "";
+      setLang(picker.returnValue || lang);
+    });
+    picker.showModal();
+    document.body.style.overflow = "hidden";
+    var guess = $('.lang-picker__opt[value="' + lang + '"]', picker);
+    if (guess) guess.focus();
+  }
+
   var langToggle = $("#lang-toggle");
   if (langToggle) {
     langToggle.addEventListener("click", function (e) {

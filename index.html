@@ -110,6 +110,25 @@
 
 </defs></svg>
 
+<!-- Language picker. Opened by main.js on every visit; trilingual on
+     purpose, so it carries no data-i18n keys. -->
+<dialog class="lang-picker" id="lang-picker" aria-labelledby="lang-picker-title">
+  <svg class="lang-picker__corner lang-picker__corner--tl" aria-hidden="true"><use href="#orn-corner"/></svg>
+  <svg class="lang-picker__corner lang-picker__corner--br" aria-hidden="true"><use href="#orn-corner"/></svg>
+  <i class="xi lang-picker__xi" aria-hidden="true">囍</i>
+  <p class="lang-picker__names">Bo-Shiang &amp; Suyi</p>
+  <h2 class="lang-picker__title" id="lang-picker-title">
+    <span lang="en">Choose your language</span>
+    <span lang="zh-Hant">請選擇語言</span>
+    <span lang="zh-Hans">请选择语言</span>
+  </h2>
+  <form class="lang-picker__opts" method="dialog">
+    <button class="lang-picker__opt" value="en" lang="en">English</button>
+    <button class="lang-picker__opt" value="zh-Hant" lang="zh-Hant">繁體中文</button>
+    <button class="lang-picker__opt" value="zh-Hans" lang="zh-Hans">简体中文</button>
+  </form>
+</dialog>
+
 <a class="skip-link" href="#main" data-i18n="nav.skip">Skip to content</a>
 
 <header class="site-header" id="site-header">

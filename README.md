@@ -256,9 +256,9 @@ In VS Code, the **Live Server** extension does the same from a right-click on
 
 ### While testing
 
-- **The language switch remembers your choice.** To see what a first-time
-  visitor sees (the language picked from their browser settings), open a
-  private window.
+- **The language picker appears on every visit**, with the last choice
+  preselected. To see what a first-time visitor sees (the language guessed
+  from their browser settings), open a private window.
 - **To check the phone layout**, open the browser's developer tools
   (`Cmd+Option+I`) and toggle the device toolbar (`Cmd+Shift+M`).
 - **A test RSVP is a real RSVP.** `RSVP_ENDPOINT` points at the live Google
@@ -299,9 +299,12 @@ Every piece of text carries a `data-i18n` key. English lives in `index.html`,
 so the page still reads correctly with JavaScript disabled; 繁體中文 and
 简体中文 live in `assets/js/i18n.js`. The EN / 繁 / 简 switch in the header
 swaps them, remembers the choice in `localStorage`, and sets the `lang`
-attribute (`zh-Hant` or `zh-Hans`) so the right font stack applies. Guests with
-a Chinese browser locale land on Chinese first: 简体 for zh-CN, zh-SG and
-zh-MY, 繁體 for everything else (zh-TW, zh-HK and so on).
+attribute (`zh-Hant` or `zh-Hans`) so the right font stack applies. On every
+visit a picker pops up asking for English, 繁體中文 or 简体中文. Behind it, the
+page already shows the guest's last choice, and pressing Escape keeps it. A
+first-time guest gets a guess from the browser locale instead: 简体 for zh-CN,
+zh-SG and zh-MY, 繁體 for other Chinese locales (zh-TW, zh-HK and so on), and
+English for everything else.
 
 **When you edit text, edit it in all three places** — the English in
 `index.html`, and the matching key in both dictionaries in
