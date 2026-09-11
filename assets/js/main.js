@@ -13,7 +13,7 @@
   // rsvp/Code.gs (see "Collecting and counting RSVPs" in README.md), or any
   // form endpoint that accepts a POST — Formspree, Basin, Getform.
   // Leave it empty and the form falls back to opening a pre-filled email.
-  var RSVP_ENDPOINT = "";
+  var RSVP_ENDPOINT = "https://script.google.com/macros/s/AKfycbzUL8fvXvA8N_C72bRz_fXsmUX4KGnaWz_hvZag97sAW-QbMNgFNEuSUHtygO3u0n8OGQ/exec";
 
   // Used for the mailto fallback above, and worth filling in either way.
   var CONTACT_EMAIL = "";
