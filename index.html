@@ -20,17 +20,6 @@
 </head>
 <body>
 
-<!--
-  ===========================================================================
-  DRAFT BANNER — delete this whole <div> once every [bracketed] placeholder
-  in this file has been replaced with real content.
-  ===========================================================================
--->
-<div class="draft-banner" id="draft-banner" hidden>
-  <p data-i18n="draft.text">This site still has placeholder text (shown in <span class="todo">dashed underline</span>). See <code>README.md</code> for the checklist.</p>
-  <button type="button" class="draft-banner__close" id="draft-dismiss" aria-label="Dismiss this notice">&times;</button>
-</div>
-
 
 <!-- ==========================================================================
      Ornament sprite — Taiwanese wedding motifs, referenced with <use> below.
@@ -137,7 +126,6 @@
       <li><a href="#details"  data-i18n="nav.details">Details</a></li>
       <li><a href="#schedule" data-i18n="nav.schedule">Schedule</a></li>
       <li><a href="#gallery"  data-i18n="nav.gallery">Gallery</a></li>
-      <li><a href="#faq"      data-i18n="nav.faq">FAQ</a></li>
       <li><a class="nav__cta" href="#rsvp" data-i18n="nav.rsvp">RSVP</a></li>
     </ul>
 
@@ -167,14 +155,12 @@
       <p class="hero__eyebrow" data-i18n="hero.eyebrow">Together with their families</p>
 
       <h1 class="hero__names">
-        <span class="hero__name">Bo-Shiang</span>
+        <span class="hero__name" data-i18n="names.groom">Bo-Shiang</span>
         <span class="hero__amp">&amp;</span>
-        <span class="hero__name">Suyi</span>
+        <span class="hero__name" data-i18n="names.bride">Suyi</span>
       </h1>
 
-      <p class="hero__surnames" data-i18n="hero.surnames">Bo-Shiang Wang &amp; Suyi Zhu</p>
-
-      <p class="hero__names-cn" lang="zh-Hant">王柏翔<span class="sep">・</span>朱素怡</p>
+      <p class="hero__surnames" data-i18n="names.full">Bo-Shiang Wang &amp; Suyi Zhu</p>
 
       <div class="hero__rule" aria-hidden="true"><span></span><i class="xi">囍</i><span></span></div>
 
@@ -332,51 +318,6 @@
     <button class="lightbox__nav lightbox__nav--next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
   </div>
 
-  <!-- ========================= FAQ ========================= -->
-  <section class="section" id="faq">
-    <div class="wrap wrap--narrow">
-      <p class="section__eyebrow" data-i18n="faq.eyebrow">Good to know</p>
-      <h2 class="section__title" data-i18n="faq.title">Questions</h2>
-
-      <div class="faq">
-        <details class="faq__item">
-          <summary data-i18n="faq.1.q">When should I RSVP by?</summary>
-          <p class="todo" data-i18n="faq.1.a">[ Please reply by September 23, 2026 — confirm this date. ]</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.2.q">Where should I park?</summary>
-          <p class="todo" data-i18n="faq.2.a">[ Parking details for 3199 Powell St — confirm whether it is on-site, garage, or valet, and whether it is validated. ]</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.3.q">Can I bring a plus-one?</summary>
-          <p class="todo" data-i18n="faq.3.a">[ Your invitation lists everyone we have saved a seat for. Confirm your policy. ]</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.4.q">Are children welcome?</summary>
-          <p class="todo" data-i18n="faq.4.a">[ Confirm whether the celebration is adults-only or family-friendly. ]</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.5.q">What about dietary restrictions?</summary>
-          <p data-i18n="faq.5.a">Tell us in the RSVP form below and we will pass it along to the kitchen. Vegetarian, halal, and allergy-safe options can all be arranged.</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.6.q">How do I get there without a car?</summary>
-          <p class="todo" data-i18n="faq.6.a">[ The Emeryville Powell Street area is served by the Emery Go-Round shuttle from MacArthur BART. Confirm the details you want to give. ]</p>
-        </details>
-
-        <details class="faq__item">
-          <summary data-i18n="faq.7.q">Who can I contact with questions?</summary>
-          <p class="todo" data-i18n="faq.7.a">[ Add a contact email or phone number here. ]</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
   <!-- ========================= RSVP ========================= -->
   <section class="section section--rsvp" id="rsvp">
     <div class="wrap wrap--narrow">
@@ -403,20 +344,26 @@
           <div class="choices">
             <label class="choice">
               <input type="radio" name="attending" value="yes" required>
-              <span data-i18n="rsvp.yes">Joyfully accepts</span>
+              <span data-i18n="rsvp.yes">We'll be there</span>
             </label>
             <label class="choice">
               <input type="radio" name="attending" value="no">
-              <span data-i18n="rsvp.no">Regretfully declines</span>
+              <span data-i18n="rsvp.no">Sorry, can't make it</span>
             </label>
           </div>
           <p class="field__error" data-error-for="attending" data-i18n="rsvp.err.attending">Please choose one.</p>
         </fieldset>
 
         <div class="conditional" id="if-attending" hidden>
-          <div class="field">
-            <label for="rsvp-guests" data-i18n="rsvp.guests">Number of guests (including you)</label>
-            <input type="number" id="rsvp-guests" name="guests" min="1" max="10" value="1" inputmode="numeric">
+          <div class="field-pair">
+            <div class="field">
+              <label for="rsvp-adults" data-i18n="rsvp.adults">Adults (including you)</label>
+              <input type="number" id="rsvp-adults" name="adults" min="1" max="10" value="1" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="rsvp-children" data-i18n="rsvp.children">Children</label>
+              <input type="number" id="rsvp-children" name="children" min="0" max="10" value="0" inputmode="numeric">
+            </div>
           </div>
 
           <div class="field">
@@ -425,7 +372,6 @@
               <option value="no-preference" data-i18n="rsvp.meal.none">No preference</option>
               <option value="vegetarian"    data-i18n="rsvp.meal.veg">Vegetarian</option>
               <option value="seafood"       data-i18n="rsvp.meal.sea">Seafood</option>
-              <option value="halal"         data-i18n="rsvp.meal.halal">Halal</option>
             </select>
           </div>
 
@@ -463,8 +409,8 @@
 <footer class="site-footer">
   <div class="wrap">
     <svg class="footer__knot" aria-hidden="true"><use href="#orn-knot"/></svg>
-    <p class="footer__names">Bo-Shiang &amp; Suyi</p>
-    <p class="footer__names-cn" lang="zh-Hant">王柏翔<span class="sep">・</span>朱素怡</p>
+    <p class="footer__names"><span data-i18n="names.groom">Bo-Shiang</span> &amp; <span data-i18n="names.bride">Suyi</span></p>
+    <p class="footer__full" data-i18n="names.full">Bo-Shiang Wang &amp; Suyi Zhu</p>
     <p class="footer__date">
       <span data-i18n="footer.date">October 23, 2026</span> &middot;
       <span data-i18n="footer.place">Emeryville, California</span>

@@ -6,7 +6,8 @@ A static wedding site for **Bo-Shiang Wang & Suyi Zhu**.
 > 3199 Powell St, Emeryville, CA 94608 · [Google Maps](https://maps.app.goo.gl/XZWvtAWs9UGRuyM69)
 
 No build step, no dependencies, no framework — plain HTML, CSS and JavaScript.
-Open `index.html` in a browser and it works.
+Open `index.html` in a browser and it works — see
+[Running it locally](#running-it-locally).
 
 ---
 
@@ -14,26 +15,20 @@ Open `index.html` in a browser and it works.
 
 The site is fully built, but a handful of facts weren't known when it was
 written. They appear on the page in *italic dashed underline* and are wrapped
-in `[ square brackets ]`. A yellow banner sits at the top of the page for as
-long as any of them remain.
+in `[ square brackets ]`.
 
 | # | What to fill in | Where |
 |---|---|---|
 | 1 | **Venue name** (the address and map link are already correct) | `index.html` → search `[ Venue name ]` |
 | 2 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
 | 3 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
-| 4 | **FAQ answers** — RSVP deadline, parking, plus-ones, children, transit, contact | `index.html` → `#faq` section |
-| 5 | **Photos** | see [Gallery](#gallery) below |
-| 6 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
+| 4 | **Photos** | see [Gallery](#gallery) below |
+| 5 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
 
 Each item has Traditional and Simplified Chinese counterparts with the same
 bracketed placeholder in `assets/js/i18n.js`. Update all three.
 
-When everything is filled in:
-
-1. Remove the `class="todo"` attributes you replaced.
-2. Delete the `<div class="draft-banner">…</div>` block near the top of `index.html`
-   (the banner hides itself once no `.todo` remains, but deleting it is tidier).
+When everything is filled in, remove the `class="todo"` attributes you replaced.
 
 ---
 
@@ -76,13 +71,24 @@ The script creates two tabs. **Summary** is the one you'll live in:
 | | |
 |---|---|
 | **Headcount (people attending)** | the number you give the caterer — it sums the guest counts, not the replies |
+| Adults / Children | the headcount split, from the two numbers each guest enters |
 | Parties attending / declined | how many invitations have said yes and no |
 | Replies received | how many have answered at all |
-| Vegetarian / seafood / halal / no preference | meal split, for the kitchen |
+| Vegetarian / seafood / no preference | meal split, for the kitchen |
 | With dietary notes | how many wrote something in the allergies field |
 
 **RSVPs** holds one row per guest — name, email, attending, guest count, meal,
-dietary notes, song request, message, and when they replied.
+dietary notes, song request, message, when they replied, and how many of the
+party are children. *Guests* is the whole party, children included; the
+*Children* column sits last so a Sheet that already has replies keeps its
+columns in place.
+
+**If you deployed the script before the children field existed**, paste in the
+new `rsvp/Code.gs`, re-deploy it as a new version (see above), then run
+`rebuildSummary` once from the editor so the Summary tab gains the Adults and
+Children rows. The Children header labels itself on the next reply. Until you
+re-deploy, the headcount still comes out right: the form sends the whole party
+as `guests`, and the old script simply ignores the children number.
 
 Two things worth knowing:
 
@@ -212,12 +218,48 @@ an unescaped comma in `LOCATION` splits the address into several values.
 
 ## Running it locally
 
+Nothing to install or build. Pick whichever is easiest.
+
+### Quickest: open the file
+
+Double-click `index.html` in Finder, or drag it onto a browser window. From
+the terminal:
+
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+open index.html        # macOS
 ```
 
-A plain file open (`file://`) works too.
+Everything works this way. Edit a file, save, and refresh the browser to see
+the change.
+
+### Closer to the real thing: a local server
+
+Serving over `http://` behaves exactly like GitHub Pages will. macOS ships
+with Python, so from the project folder:
+
+```bash
+cd ~/wedding_website          # wherever you cloned it
+python3 -m http.server 8000
+```
+
+Then open <http://localhost:8000>. Leave the terminal running while you work;
+press `Ctrl+C` to stop it. If port 8000 is taken, use another number
+(`python3 -m http.server 8080`, then `http://localhost:8080`).
+
+In VS Code, the **Live Server** extension does the same from a right-click on
+`index.html` → *Open with Live Server*, and reloads the page on every save.
+
+### While testing
+
+- **The language switch remembers your choice.** To see what a first-time
+  visitor sees (the language picked from their browser settings), open a
+  private window.
+- **To check the phone layout**, open the browser's developer tools
+  (`Cmd+Option+I`) and toggle the device toolbar (`Cmd+Shift+M`).
+- **A test RSVP is a real RSVP.** `RSVP_ENDPOINT` points at the live Google
+  Sheet whether the page runs locally or online, so a test submission lands
+  in the Sheet — and emails you, if notifications are on. Delete the row
+  afterwards so it does not inflate the headcount.
 
 ## Publishing on GitHub Pages
 
@@ -234,14 +276,16 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
   "Add to calendar" button serving [`assets/wedding.ics`](#the-calendar-file)
 - **Schedule** for the evening
 - **Gallery** with a keyboard-navigable lightbox (←/→ to move, Esc to close)
-- **FAQ** as expandable questions
 - **RSVP** form
 
 ### The couple's names
 
-王柏翔 and 朱素怡 appear under the romanised names in the hero, in the footer,
-in the page `<title>`, and on the social share card. They are marked
-`lang="zh-Hant"` so screen readers switch voice for them.
+The names follow the language switch, in the hero, the footer and the browser
+tab: "Bo-Shiang & Suyi" / "Bo-Shiang Wang & Suyi Zhu" in English, 柏翔 & 素怡 /
+王柏翔・朱素怡 in Chinese. The keys are `names.groom`, `names.bride`,
+`names.full` and `page.title` in `assets/js/i18n.js`. The static `<title>` and
+the social share card stay bilingual, since link previews never run the
+JavaScript.
 
 ### Bilingual
 

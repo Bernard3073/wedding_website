@@ -74,6 +74,7 @@
     lang = LANGS.indexOf(next) >= 0 ? next : "en";
 
     document.documentElement.lang = lang;
+    if (t("page.title")) document.title = t("page.title");
 
     var dict = lang === "en" ? {} : (I18N[lang] || {});
     $$("[data-i18n]").forEach(function (el) {
@@ -108,24 +109,6 @@
       var opt = e.target.closest("[data-lang-opt]");
       if (opt) setLang(opt.dataset.langOpt);
     });
-  }
-
-  /* ---------------------------------------------------------------------
-     Draft banner — only appears while [placeholders] remain
-     --------------------------------------------------------------------- */
-  var banner = $("#draft-banner");
-  if (banner) {
-    var hasPlaceholders = $$(".todo").length > 0;
-    var dismissed = store("wedding-draft-dismissed") === "1";
-    banner.hidden = !hasPlaceholders || dismissed;
-
-    var dismiss = $("#draft-dismiss");
-    if (dismiss) {
-      dismiss.addEventListener("click", function () {
-        banner.hidden = true;
-        store("wedding-draft-dismissed", "1");
-      });
-    }
   }
 
   /* ---------------------------------------------------------------------
@@ -354,7 +337,14 @@
         data[key] = typeof value === "string" ? value.trim() : value;
       });
       if (data.attending !== "yes") {
-        delete data.guests; delete data.meal; delete data.dietary; delete data.song;
+        delete data.adults; delete data.children;
+        delete data.meal; delete data.dietary; delete data.song;
+      } else {
+        // `guests` stays the whole party, so the headcount needs no arithmetic
+        // and a backend that predates the children field still counts right.
+        data.adults   = Math.max(1, parseInt(data.adults, 10) || 1);
+        data.children = Math.max(0, parseInt(data.children, 10) || 0);
+        data.guests   = data.adults + data.children;
       }
       return data;
     }
@@ -424,7 +414,7 @@
      can't miss anything, and the sweep stops once everything is revealed.
      --------------------------------------------------------------------- */
   if (!reduceMotion) {
-    var pending = $$(".section__eyebrow, .section__title, .section__lead, .card, .map, .timeline__item, .gallery__item, .faq__item, .form");
+    var pending = $$(".section__eyebrow, .section__title, .section__lead, .card, .map, .timeline__item, .gallery__item, .form");
     pending.forEach(function (el) { el.classList.add("reveal"); });
 
     var queued = false;

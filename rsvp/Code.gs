@@ -21,9 +21,11 @@ var NOTIFY_EMAIL =
 var SHEET_RSVPS   = 'RSVPs';
 var SHEET_SUMMARY = 'Summary';
 
+// Guests is the whole party, children included. Children sits at the end, not
+// beside Guests, so a Sheet that already holds replies keeps its columns.
 var HEADERS = [
   'Timestamp', 'Name', 'Email', 'Attending', 'Guests',
-  'Meal', 'Dietary', 'Song', 'Message', 'Updated'
+  'Meal', 'Dietary', 'Song', 'Message', 'Updated', 'Children'
 ];
 
 /** Browsers POST the form here. */
@@ -47,6 +49,8 @@ function doPost(e) {
 
     var attending = String(p.attending || '').trim().toLowerCase();
     var guests    = attending === 'yes' ? Math.max(1, parseInt(p.guests, 10) || 1) : 0;
+    // Someone in the party is filling in the form, so at least one adult.
+    var children  = Math.min(Math.max(0, parseInt(p.children, 10) || 0), Math.max(0, guests - 1));
 
     var sheet = rsvpSheet_();
     var now   = new Date();
@@ -61,7 +65,8 @@ function doPost(e) {
       String(p.dietary  || ''),
       String(p.song     || ''),
       String(p.message  || ''),
-      ''
+      '',
+      children
     ];
 
     // If this email already replied, update that row rather than adding a
@@ -103,6 +108,9 @@ function rsvpSheet_() {
     sheet.getRange(1, 1, 1, HEADERS.length).setFontWeight('bold');
     sheet.setFrozenRows(1);
     sheet.setColumnWidth(9, 320);   // Message
+  } else if (sheet.getRange(1, HEADERS.length).getValue() !== HEADERS[HEADERS.length - 1]) {
+    // A Sheet made before a column was added: label the new one.
+    sheet.getRange(1, 1, 1, HEADERS.length).setValues([HEADERS]).setFontWeight('bold');
   }
   return sheet;
 }
@@ -132,13 +140,15 @@ function ensureSummary_() {
 
   var rows = [
     ['Headcount (people attending)', '=SUMIF(' + A + 'D2:D,"yes",' + A + 'E2:E)'],
-    ['Parties attending',            '=COUNTIF(' + A + 'D2:D,"yes")'],
+    ['Adults',   '=SUMIF(' + A + 'D2:D,"yes",' + A + 'E2:E)-SUMIF(' + A + 'D2:D,"yes",' + A + 'K2:K)'],
+    ['Children', '=SUMIF(' + A + 'D2:D,"yes",' + A + 'K2:K)'],
+    ['', ''],
+    ['Parties attending',           '=COUNTIF(' + A + 'D2:D,"yes")'],
     ['Parties declined',             '=COUNTIF(' + A + 'D2:D,"no")'],
     ['Replies received',             '=COUNTA(' + A + 'B2:B)'],
     ['', ''],
     ['Vegetarian',    '=COUNTIFS(' + A + 'D2:D,"yes",' + A + 'F2:F,"vegetarian")'],
     ['Seafood',       '=COUNTIFS(' + A + 'D2:D,"yes",' + A + 'F2:F,"seafood")'],
-    ['Halal',         '=COUNTIFS(' + A + 'D2:D,"yes",' + A + 'F2:F,"halal")'],
     ['No preference', '=COUNTIFS(' + A + 'D2:D,"yes",' + A + 'F2:F,"no-preference")'],
     ['', ''],
     ['With dietary notes', '=COUNTIFS(' + A + 'D2:D,"yes",' + A + 'G2:G,"<>")']
@@ -165,23 +175,28 @@ function notify_(row, wasUpdate) {
     var sheet = rsvpSheet_();
     var last  = sheet.getLastRow();
     var head  = 0;
+    var kids  = 0;
     if (last >= 2) {
-      var vals = sheet.getRange(2, 4, last - 1, 2).getValues();   // Attending, Guests
+      var vals = sheet.getRange(2, 1, last - 1, HEADERS.length).getValues();
       for (var i = 0; i < vals.length; i++) {
-        if (String(vals[i][0]).toLowerCase() === 'yes') head += Number(vals[i][1]) || 0;
+        if (String(vals[i][3]).toLowerCase() !== 'yes') continue;   // Attending
+        head += Number(vals[i][4])  || 0;                            // Guests
+        kids += Number(vals[i][10]) || 0;                            // Children
       }
     }
 
     var coming = row[3] === 'yes';
+    var party  = row[4] + (row[4] === 1 ? ' person' : ' people');
+    if (row[10]) party += ' (' + row[10] + (row[10] === 1 ? ' child' : ' children') + ')';
     var lines = [
       row[1] + ' <' + row[2] + '>',
-      coming ? 'Attending — ' + row[4] + (row[4] === 1 ? ' person' : ' people') : 'Not attending',
+      coming ? 'Attending — ' + party : 'Not attending',
       row[5] ? 'Meal: ' + row[5] : '',
       row[6] ? 'Dietary: ' + row[6] : '',
       row[7] ? 'Song: ' + row[7] : '',
       row[8] ? 'Message: ' + row[8] : '',
       '',
-      'Headcount so far: ' + head
+      'Headcount so far: ' + head + (kids ? ' (' + kids + (kids === 1 ? ' child' : ' children') + ')' : '')
     ].filter(String);
 
     MailApp.sendEmail(
