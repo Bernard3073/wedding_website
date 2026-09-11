@@ -17,7 +17,7 @@ window.WEDDING_I18N = {
     "page.title":    "王柏翔 & 朱素怡 — 2026 年 10 月 23 日",
     "names.groom":   "柏翔",
     "names.bride":   "素怡",
-    "names.full":    "王柏翔<span class=\"sep\">・</span>朱素怡",
+    "names.full":    "<span class=\"names-alt\" lang=\"en\">Bo-Shiang Wang &amp; Suyi Zhu</span>",
 
     "hero.eyebrow":  "在雙方家人的祝福下",
     "hero.day":      "星期五",
@@ -114,7 +114,7 @@ window.WEDDING_I18N = {
     "page.title":    "王柏翔 & 朱素怡 — 2026 年 10 月 23 日",
     "names.groom":   "柏翔",
     "names.bride":   "素怡",
-    "names.full":    "王柏翔<span class=\"sep\">・</span>朱素怡",
+    "names.full":    "<span class=\"names-alt\" lang=\"en\">Bo-Shiang Wang &amp; Suyi Zhu</span>",
 
     "hero.eyebrow":  "在双方家人的祝福下",
     "hero.day":      "星期五",

@@ -280,9 +280,10 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
 
 ### The couple's names
 
-The names follow the language switch, in the hero, the footer and the browser
-tab: "Bo-Shiang & Suyi" / "Bo-Shiang Wang & Suyi Zhu" in English, 柏翔 & 素怡 /
-王柏翔・朱素怡 in Chinese. The keys are `names.groom`, `names.bride`,
+The large names follow the language switch, and the smaller full-name line
+beneath them shows the other language, in both the hero and the footer:
+"Bo-Shiang & Suyi" over 王柏翔・朱素怡 in English, 柏翔 & 素怡 over
+"Bo-Shiang Wang & Suyi Zhu" in Chinese. The browser tab follows the language. The keys are `names.groom`, `names.bride`,
 `names.full` and `page.title` in `assets/js/i18n.js`. The static `<title>` and
 the social share card stay bilingual, since link previews never run the
 JavaScript.

@@ -124,12 +124,15 @@ a:hover { color: var(--gold); }
 .nav__menu a:hover, .nav__menu a.is-active { color: var(--ink); }
 .nav__menu a:hover::after, .nav__menu a.is-active::after { right: 0; }
 
-.nav__cta {
-  border: 1px solid var(--sage); padding: .5rem 1.1rem !important;
-  color: var(--sage-deep) !important; border-radius: var(--radius);
+/* RSVP is the one thing guests must do, so every RSVP button is filled in the
+   auspicious red with white text (7.4:1 contrast) and sized to read at a glance. */
+.nav__menu .nav__cta {
+  background: var(--red); border: 1px solid var(--red); border-radius: var(--radius);
+  color: #fff !important; padding: .6rem 1.3rem !important;
+  font-size: .88rem; font-weight: 500; letter-spacing: .14em;
 }
 .nav__cta::after { display: none; }
-.nav__cta:hover { background: var(--sage); color: var(--cream) !important; }
+.nav__menu .nav__cta:hover { background: var(--red-deep); border-color: var(--red-deep); }
 
 .lang-toggle {
   flex: none; margin-left: 1rem;
@@ -214,10 +217,7 @@ a:hover { color: var(--gold); }
 }
 .hero__amp { font-style: italic; color: var(--gold); font-size: .58em; }
 
-.hero__surnames {
-  margin: 1rem 0 0;
-  font-size: .8rem; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-faint);
-}
+.hero__surnames { margin: 1rem 0 0; }
 
 .hero__rule {
   display: flex; align-items: center; justify-content: center; gap: 1rem;
@@ -449,8 +449,11 @@ a:hover { color: var(--gold); }
   padding: .95rem 2.25rem; border-radius: var(--radius);
   transition: background .25s, color .25s, border-color .25s, transform .2s;
 }
-.btn--primary { background: var(--sage-deep); color: var(--cream); border: 1px solid var(--sage-deep); }
-.btn--primary:hover { background: var(--ink); border-color: var(--ink); color: var(--cream); transform: translateY(-1px); }
+.btn--primary {
+  background: var(--red); color: #fff; border: 1px solid var(--red);
+  font-size: 1rem; font-weight: 500; letter-spacing: .16em; padding: 1.05rem 2.6rem;
+}
+.btn--primary:hover { background: var(--red-deep); border-color: var(--red-deep); color: #fff; transform: translateY(-1px); }
 .btn--ghost { background: transparent; color: var(--sage-deep); border: 1px solid var(--line); }
 .btn--ghost:hover { border-color: var(--sage); background: var(--sage); color: var(--cream); }
 .btn[disabled] { opacity: .55; pointer-events: none; }
@@ -640,26 +643,24 @@ a:hover { color: var(--gold); }
 
 
 /* ---------------------------------------------------- the couple's names */
-/* The full-name line follows the language. Romanised, it is small caps-like
-   tracking; in Chinese the characters need more size to read. */
-.footer__full {
-  margin: -.25rem 0 1.4rem;
-  font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
-  color: rgba(250, 247, 242, .6);
+/* The full-name line under the big names is always in the other language.
+   It is styled by its own lang, not the page's: romanised it is small and
+   tracked; in Chinese the characters need more size to read. */
+.footer__full { margin: -.25rem 0 1.4rem; }
+
+.names-alt[lang="en"] {
+  font-family: "Jost", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  letter-spacing: .22em; text-transform: uppercase;
 }
-html[lang^="zh"] .hero__surnames,
-html[lang^="zh"] .footer__full {
-  letter-spacing: .3em; text-indent: .3em; text-transform: none;
+.names-alt[lang^="zh"] {
+  font-family: "Noto Serif TC", "PingFang TC", "Heiti TC", "Songti TC",
+               "Microsoft JhengHei", "Source Han Serif TC", serif;
+  font-weight: 400;
+  letter-spacing: .3em; padding-left: .3em;   /* balances the trailing tracking */
 }
-html[lang^="zh"] .hero__surnames {
-  margin-top: .9rem;
-  font-size: clamp(1.15rem, 3.4vw, 1.65rem);
-  color: var(--ink);
-}
-html[lang^="zh"] .footer__full {
-  font-size: 1.2rem;
-  color: rgba(250, 247, 242, .78);
-}
-.hero__surnames .sep, .footer__full .sep {
-  color: var(--gold); letter-spacing: 0; margin: 0 .15em;
-}
+.names-alt .sep { color: var(--gold); letter-spacing: 0; margin: 0 .15em; }
+
+.hero__surnames .names-alt[lang="en"]  { font-size: .8rem; color: var(--ink-faint); }
+.hero__surnames .names-alt[lang^="zh"] { font-size: clamp(1.15rem, 3.4vw, 1.65rem); color: var(--ink); }
+.footer__full .names-alt[lang="en"]    { font-size: .72rem; color: rgba(250, 247, 242, .6); }
+.footer__full .names-alt[lang^="zh"]   { font-size: 1.2rem; color: rgba(250, 247, 242, .78); }
