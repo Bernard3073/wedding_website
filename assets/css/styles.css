@@ -318,6 +318,7 @@ a:hover { color: var(--gold); }
 .map__fallback { margin: .9rem 0 0; text-align: center; font-size: .85rem; }
 
 /* ============================ Timeline ============================ */
+.schedule__pending { margin-bottom: 0; font-style: italic; }
 .timeline { list-style: none; margin: 0 auto; padding: 0; max-width: 40rem; }
 .timeline__item {
   display: grid; grid-template-columns: 6.5rem 1fr; gap: clamp(1rem, 3vw, 2rem);

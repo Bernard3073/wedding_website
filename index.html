@@ -267,7 +267,12 @@
       <p class="section__eyebrow" data-i18n="schedule.eyebrow">The evening</p>
       <h2 class="section__title" data-i18n="schedule.title">Schedule</h2>
 
-      <ol class="timeline">
+      <!-- Pending: the timeline below is kept but hidden until the times are
+           confirmed. To publish it, delete this paragraph and the `hidden`
+           attribute on the <ol>. -->
+      <p class="section__lead schedule__pending" data-i18n="schedule.pending">We&rsquo;re still finalizing the timeline for the evening and will share it here soon.</p>
+
+      <ol class="timeline" hidden>
         <li class="timeline__item">
           <p class="timeline__time todo">5:30 PM</p>
           <div class="timeline__body">

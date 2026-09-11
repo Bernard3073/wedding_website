@@ -21,7 +21,7 @@ in `[ square brackets ]`.
 |---|---|---|
 | 1 | **Venue name** (the address and map link are already correct) | `index.html` → search `[ Venue name ]` |
 | 2 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
-| 3 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
+| 3 | **Schedule times** — only 6:00 PM is confirmed. The timeline is hidden behind a "still finalizing" note until then; delete the note and the `hidden` on the `<ol>` to publish it | `index.html` → `#schedule` section |
 | 4 | **Photos** | see [Gallery](#gallery) below |
 | 5 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
 
@@ -279,7 +279,7 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
   and 囍 / lanterns (see [The decorations](#the-decorations))
 - **The Details** — when, where, dress code, an embedded map, and an
   "Add to calendar" button serving [`assets/wedding.ics`](#the-calendar-file)
-- **Schedule** for the evening
+- **Schedule** for the evening (currently a "still finalizing" note)
 - **Gallery** with a keyboard-navigable lightbox (←/→ to move, Esc to close)
 - **RSVP** form
 

@@ -49,6 +49,7 @@ window.WEDDING_I18N = {
 
     "schedule.eyebrow": "當晚流程",
     "schedule.title":   "流程表",
+    "schedule.pending": "當晚流程仍在安排中，確定後會盡快公布於此。",
     "schedule.1.head":  "賓客入場",
     "schedule.1.body":  "［迎賓飲料與入座。時間待確認。］",
     "schedule.2.head":  "婚禮儀式",
@@ -140,6 +141,7 @@ window.WEDDING_I18N = {
 
     "schedule.eyebrow": "当晚流程",
     "schedule.title":   "流程表",
+    "schedule.pending": "当晚流程仍在安排中，确定后会尽快公布于此。",
     "schedule.1.head":  "宾客入场",
     "schedule.1.body":  "［迎宾饮品与入座。时间待确认。］",
     "schedule.2.head":  "婚礼仪式",
