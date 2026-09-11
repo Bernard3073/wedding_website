@@ -75,9 +75,11 @@ The script creates two tabs. **Summary** is the one you'll live in:
 | Parties attending / declined | how many invitations have said yes and no |
 | Replies received | how many have answered at all |
 
-**RSVPs** holds one row per guest — name, email, attending, guest count, how
-many of the party are children, message, and when they replied. *Guests* is
-the whole party, children included.
+**RSVPs** holds one row per guest — name, email, attending, the party size
+split into *Guests*, *Adults* and *Children*, message, and when they replied.
+*Guests* is the whole party (Adults + Children). If you type a row in by hand,
+fill in Guests and Children: the Summary totals are worked out from those two,
+so replies from before the Adults column existed still count.
 
 The script finds each column by its header name, not its position, so you can
 reorder or insert columns by hand without breaking anything — just keep the
@@ -87,8 +89,8 @@ header names as they are.
 meals, dietary notes and songs, or had no children count), paste in the new
 `rsvp/Code.gs`, re-deploy it as a new version (see above), then run
 `rebuildSummary` once from the editor so the Summary tab matches. Your
-existing replies stay put: a missing Children column is added at the end on
-the next reply, and the old Meal, Dietary and Song columns are simply no
+existing replies stay put: missing Adults and Children columns are added at
+the end on the next reply, and the old Meal, Dietary and Song columns are simply no
 longer filled in — keep them for the answers already there, or delete them.
 Until you re-deploy, the headcount still comes out right: the form sends the
 whole party as `guests`, which every version reads.

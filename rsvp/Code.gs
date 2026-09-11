@@ -21,11 +21,11 @@ var NOTIFY_EMAIL =
 var SHEET_RSVPS   = 'RSVPs';
 var SHEET_SUMMARY = 'Summary';
 
-// Guests is the whole party, children included. Columns are found by these
+// Guests is the whole party: Adults plus Children. Columns are found by these
 // header names rather than by position (see columns_), so the order here only
 // decides the layout of a brand-new Sheet.
 var HEADERS = [
-  'Timestamp', 'Name', 'Email', 'Attending', 'Guests', 'Children',
+  'Timestamp', 'Name', 'Email', 'Attending', 'Guests', 'Adults', 'Children',
   'Message', 'Updated'
 ];
 
@@ -64,6 +64,7 @@ function doPost(e) {
       Email:     email,
       Attending: attending === 'yes' ? 'yes' : 'no',
       Guests:    guests,
+      Adults:    guests - children,   // derived, so the three always add up
       Children:  children,
       Message:   String(p.message || ''),
       Updated:   ''
@@ -122,8 +123,9 @@ function rsvpSheet_() {
 /**
  * Where each field lives, as 0-based column indexes, found by header name.
  * A Sheet made by an earlier version of this script keeps working: a column
- * it lacks is added at the end, and a column no longer asked for (Meal,
- * Dietary, Song) is left alone with what it holds — delete it whenever.
+ * it lacks (Adults, say) is added at the end, and a column no longer asked
+ * for (Meal, Dietary, Song) is left alone with what it holds — delete it
+ * whenever.
  * Moving or inserting columns by hand is fine too.
  */
 function columns_(sheet) {
@@ -182,6 +184,8 @@ function ensureSummary_(cols) {
   };
   var att = range('Attending'), guests = range('Guests'), kids = range('Children');
 
+  // Adults is Guests minus Children rather than a sum of the Adults column, so
+  // replies from before that column existed are still counted.
   var rows = [
     ['Headcount (people attending)', '=SUMIF(' + att + ',"yes",' + guests + ')'],
     ['Adults',   '=SUMIF(' + att + ',"yes",' + guests + ')-SUMIF(' + att + ',"yes",' + kids + ')'],
@@ -227,7 +231,10 @@ function notify_(sheet, cols, reply, wasUpdate) {
 
     var coming = reply.Attending === 'yes';
     var party  = reply.Guests + (reply.Guests === 1 ? ' person' : ' people');
-    if (reply.Children) party += ' (' + reply.Children + (reply.Children === 1 ? ' child' : ' children') + ')';
+    if (reply.Children) {
+      party += ' (' + reply.Adults + (reply.Adults === 1 ? ' adult, ' : ' adults, ') +
+               reply.Children + (reply.Children === 1 ? ' child' : ' children') + ')';
+    }
     var lines = [
       reply.Name + ' <' + reply.Email + '>',
       coming ? 'Attending — ' + party : 'Not attending',
