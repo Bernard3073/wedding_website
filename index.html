@@ -15,7 +15,7 @@
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Jost:wght@300;400;500&family=Noto+Serif+TC:wght@300;400;500&family=Noto+Serif+SC:wght@300;400;500&display=swap">
 <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
@@ -40,33 +40,6 @@
      loads Noto Serif TC for the Chinese side.
      ========================================================================== -->
 <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
-
-  <!-- 牡丹 peony — wealth and honour -->
-  <path id="peony-petal" d="M0 0 C-15 -10 -19 -27 -9 -37 C-3 -43 3 -43 9 -37 C19 -27 15 -10 0 0 Z"/>
-  <symbol id="orn-peony" viewBox="0 0 100 100">
-    <g transform="translate(50 52)">
-      <g fill-opacity=".34">
-        <use href="#peony-petal" transform="rotate(0)   scale(1.15)"/>
-        <use href="#peony-petal" transform="rotate(60)  scale(1.15)"/>
-        <use href="#peony-petal" transform="rotate(120) scale(1.15)"/>
-        <use href="#peony-petal" transform="rotate(180) scale(1.15)"/>
-        <use href="#peony-petal" transform="rotate(240) scale(1.15)"/>
-        <use href="#peony-petal" transform="rotate(300) scale(1.15)"/>
-      </g>
-      <g fill-opacity=".68">
-        <use href="#peony-petal" transform="rotate(30)  scale(.78)"/>
-        <use href="#peony-petal" transform="rotate(102) scale(.78)"/>
-        <use href="#peony-petal" transform="rotate(174) scale(.78)"/>
-        <use href="#peony-petal" transform="rotate(246) scale(.78)"/>
-        <use href="#peony-petal" transform="rotate(318) scale(.78)"/>
-      </g>
-      <g>
-        <use href="#peony-petal" transform="rotate(0)   scale(.4)"/>
-        <use href="#peony-petal" transform="rotate(120) scale(.4)"/>
-        <use href="#peony-petal" transform="rotate(240) scale(.4)"/>
-      </g>
-    </g>
-  </symbol>
 
   <!-- 春仔花 — the red silk-thread flowers a Taiwanese bride and her
        mother wear in their hair; wound, not cut, hence the looped petals -->
@@ -161,7 +134,6 @@
     </button>
 
     <ul class="nav__menu" id="nav-menu">
-      <li><a href="#story"    data-i18n="nav.story">Our Story</a></li>
       <li><a href="#details"  data-i18n="nav.details">Details</a></li>
       <li><a href="#schedule" data-i18n="nav.schedule">Schedule</a></li>
       <li><a href="#gallery"  data-i18n="nav.gallery">Gallery</a></li>
@@ -169,9 +141,9 @@
       <li><a class="nav__cta" href="#rsvp" data-i18n="nav.rsvp">RSVP</a></li>
     </ul>
 
-    <button class="lang-toggle" id="lang-toggle" type="button" aria-live="polite">
-      <span class="lang-toggle__opt" data-lang-opt="en">EN</span><span class="lang-toggle__sep">/</span><span class="lang-toggle__opt" data-lang-opt="zh">中文</span>
-    </button>
+    <div class="lang-toggle" id="lang-toggle" role="group" aria-label="Language 語言 语言">
+      <button type="button" class="lang-toggle__opt" data-lang-opt="en" lang="en" aria-label="English">EN</button><span class="lang-toggle__sep" aria-hidden="true">/</span><button type="button" class="lang-toggle__opt" data-lang-opt="zh-Hant" lang="zh-Hant" aria-label="繁體中文">繁</button><span class="lang-toggle__sep" aria-hidden="true">/</span><button type="button" class="lang-toggle__opt" data-lang-opt="zh-Hans" lang="zh-Hans" aria-label="简体中文">简</button>
+    </div>
   </nav>
 </header>
 
@@ -230,42 +202,6 @@
   </section>
 
   <div class="fret-band" aria-hidden="true"></div>
-
-  <!-- ========================= OUR STORY ========================= -->
-  <section class="section section--story" id="story">
-    <div class="wrap">
-      <svg class="section__flower section__flower--peony" aria-hidden="true"><use href="#orn-peony"/></svg>
-      <p class="section__eyebrow" data-i18n="story.eyebrow">How it began</p>
-      <h2 class="section__title" data-i18n="story.title">Our Story</h2>
-
-      <div class="story">
-        <article class="story__item">
-          <p class="story__year" data-i18n="story.1.year">[ Year ]</p>
-          <h3 class="story__head" data-i18n="story.1.head">How we met</h3>
-          <!-- REPLACE: write the real story here, then remove class="todo" -->
-          <p class="story__body todo" data-i18n="story.1.body">[ A few sentences about where you met and the first impression that stuck. ]</p>
-        </article>
-
-        <article class="story__item">
-          <p class="story__year" data-i18n="story.2.year">[ Year ]</p>
-          <h3 class="story__head" data-i18n="story.2.head">Falling for each other</h3>
-          <p class="story__body todo" data-i18n="story.2.body">[ The trip, the meal, the ordinary evening — whichever moment made it obvious. ]</p>
-        </article>
-
-        <article class="story__item">
-          <p class="story__year" data-i18n="story.3.year">[ Year ]</p>
-          <h3 class="story__head" data-i18n="story.3.head">The proposal</h3>
-          <p class="story__body todo" data-i18n="story.3.body">[ Where it happened, who was there, and what was said. ]</p>
-        </article>
-
-        <article class="story__item story__item--now">
-          <p class="story__year">2026</p>
-          <h3 class="story__head" data-i18n="story.4.head">And now — the wedding</h3>
-          <p class="story__body" data-i18n="story.4.body">We would love for you to be there when we say &ldquo;I do.&rdquo;</p>
-        </article>
-      </div>
-    </div>
-  </section>
 
   <!-- ========================= DETAILS ========================= -->
   <section class="section section--alt" id="details">

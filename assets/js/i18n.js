@@ -2,19 +2,15 @@
    Translations.
    Every key here matches a `data-i18n="…"` attribute in index.html.
    English lives in the HTML itself (so the page reads fine without JS);
-   this file only supplies the 繁體中文 side.
-
-   NOTE: the couple's names are kept in romanised form because their Chinese
-   characters were not provided. Replace them in zh["hero.surnames"] and in
-   .hero__name / .footer__names in index.html once you have them.
+   this file supplies 繁體中文 and 简体中文. Each dictionary is named by the
+   `lang` code it sets on <html>. Change a string in one, change it in both.
    ========================================================================== */
 window.WEDDING_I18N = {
-  zh: {
+  "zh-Hant": {
     "draft.text": "本頁仍有預留文字（以虛線標示）。填寫清單請見 README.md。",
 
     "nav.skip":     "跳至主要內容",
     "nav.menu":     "選單",
-    "nav.story":    "我們的故事",
     "nav.details":  "婚禮資訊",
     "nav.schedule": "當日流程",
     "nav.gallery":  "相簿",
@@ -33,20 +29,6 @@ window.WEDDING_I18N = {
     "cd.hours":   "時",
     "cd.minutes": "分",
     "cd.seconds": "秒",
-
-    "story.eyebrow": "故事的開始",
-    "story.title":   "我們的故事",
-    "story.1.year":  "［年份］",
-    "story.1.head":  "初次相遇",
-    "story.1.body":  "［寫下你們相遇的地點，以及那個一直記到現在的第一印象。］",
-    "story.2.year":  "［年份］",
-    "story.2.head":  "慢慢喜歡上彼此",
-    "story.2.body":  "［一趟旅行、一頓飯，或再平常不過的一個晚上——那個心裡忽然明白的瞬間。］",
-    "story.3.year":  "［年份］",
-    "story.3.head":  "求婚那天",
-    "story.3.body":  "［在哪裡、有誰在場、說了些什麼。］",
-    "story.4.head":  "而現在——我們要結婚了",
-    "story.4.body":  "在我們說出「我願意」的那一刻，希望有你在場。",
 
     "details.eyebrow":   "時間與地點",
     "details.title":     "婚禮資訊",
@@ -135,6 +117,119 @@ window.WEDDING_I18N = {
     "footer.thanks": "謝謝你，與我們一同慶祝這一天。",
 
     "gallery.alt": "婚禮相簿照片"
+  },
+
+  "zh-Hans": {
+    "draft.text": "本页仍有预留文字（以虚线标示）。待填清单请见 README.md。",
+
+    "nav.skip":     "跳到主要内容",
+    "nav.menu":     "菜单",
+    "nav.details":  "婚礼信息",
+    "nav.schedule": "当日流程",
+    "nav.gallery":  "相册",
+    "nav.faq":      "常见问题",
+    "nav.rsvp":     "回复出席",
+
+    "hero.eyebrow":  "在双方家人的祝福下",
+    "hero.surnames": "Bo-Shiang Wang ・ Suyi Zhu",
+    "hero.day":      "星期五",
+    "hero.month":    "十月",
+    "hero.time":     "晚上六点",
+    "hero.place":    "美国加州 Emeryville",
+    "hero.cta":      "回复出席",
+
+    "cd.days":    "天",
+    "cd.hours":   "时",
+    "cd.minutes": "分",
+    "cd.seconds": "秒",
+
+    "details.eyebrow":   "时间与地点",
+    "details.title":     "婚礼信息",
+    "details.when":      "时间",
+    "details.whenDay":   "2026 年 10 月 23 日（星期五）",
+    "details.whenTime":  "晚上 6:00",
+    "details.whenNote":  "5:30 PM 开始入场，请提早到达，让我们准时开始。",
+    "details.cal":       "添加到日历",
+    "details.where":     "地点",
+    "details.venue":     "［场地名称］",
+    "details.whereNote": "靠近 I-80 Powell Street 出口，距旧金山市中心约 15 分钟车程。",
+    "details.map":       "在 Google 地图中打开",
+    "details.dress":     "着装",
+    "details.dressLead": "［小礼服／正装］",
+    "details.dressNote": "海湾边的夜晚偏凉有风，建议带件外套或披肩。",
+    "details.mapFallback": "3199 Powell St, Emeryville, CA 94608 — 在 Google 地图中打开",
+
+    "schedule.eyebrow": "当晚流程",
+    "schedule.title":   "流程表",
+    "schedule.1.head":  "宾客入场",
+    "schedule.1.body":  "［迎宾饮品与入座。时间待确认。］",
+    "schedule.2.head":  "婚礼仪式",
+    "schedule.2.body":  "我们期待已久的时刻。",
+    "schedule.3.head":  "鸡尾酒时间",
+    "schedule.3.body":  "［场地布置更换期间的饮品与合影。时间待确认。］",
+    "schedule.4.head":  "晚宴与致辞",
+    "schedule.4.body":  "［婚宴上菜与致辞。时间待确认。］",
+    "schedule.5.head":  "舞会",
+    "schedule.5.body":  "［第一支舞之后，舞池就交给大家了。时间待确认。］",
+    "schedule.6.head":  "送客",
+    "schedule.6.body":  "［送宾。时间待确认。］",
+
+    "gallery.eyebrow": "几张我们很喜欢的照片",
+    "gallery.title":   "相册",
+    "gallery.lead":    "［请将下方示意图换成你们自己的照片，做法见 README.md。］",
+
+    "faq.eyebrow": "温馨提示",
+    "faq.title":   "常见问题",
+    "faq.1.q": "什么时候需要回复是否出席？",
+    "faq.1.a": "［请于 2026 年 9 月 23 日前回复——日期待确认。］",
+    "faq.2.q": "停车怎么安排？",
+    "faq.2.a": "［3199 Powell St 的停车信息——请确认是自有停车场、停车楼还是代客泊车，以及是否可以减免停车费。］",
+    "faq.3.q": "可以带伴侣同行吗？",
+    "faq.3.a": "［请柬上会列出我们为您预留座位的所有宾客。请确认你们的安排。］",
+    "faq.4.q": "可以带小朋友吗？",
+    "faq.4.a": "［请确认婚礼是否仅限成人参加，或欢迎全家出席。］",
+    "faq.5.q": "有饮食禁忌怎么办？",
+    "faq.5.a": "请在下方回复表单中告诉我们，我们会转达给餐厅。素食、清真与过敏餐点都可以安排。",
+    "faq.6.q": "不开车怎么过去？",
+    "faq.6.a": "［Emeryville Powell Street 一带可乘坐 Emery Go-Round 免费班车，从 MacArthur BART 站前往。请确认你们想提供的信息。］",
+    "faq.7.q": "有问题可以联系谁？",
+    "faq.7.a": "［请在这里留下联系邮箱或电话。］",
+
+    "rsvp.eyebrow":   "期待与你相见",
+    "rsvp.title":     "回复出席",
+    "rsvp.lead":      "请回复是否出席，方便我们安排当晚的座位与餐点。每位宾客请各填一份。",
+    "rsvp.name":      "姓名",
+    "rsvp.email":     "电子邮箱",
+    "rsvp.attending": "是否出席？",
+    "rsvp.yes":       "很荣幸，会准时出席",
+    "rsvp.no":        "很抱歉，无法出席",
+    "rsvp.guests":    "出席人数（含本人）",
+    "rsvp.meal":      "餐点偏好",
+    "rsvp.meal.none": "都可以",
+    "rsvp.meal.veg":  "素食",
+    "rsvp.meal.sea":  "海鲜",
+    "rsvp.meal.halal":"清真",
+    "rsvp.diet":      "过敏原或饮食备注",
+    "rsvp.song":      "想在舞池里听到的一首歌",
+    "rsvp.message":   "给新人的话",
+    "rsvp.submit":    "提交回复",
+
+    "rsvp.err.name":      "请留下您的姓名。",
+    "rsvp.err.email":     "请输入有效的电子邮箱。",
+    "rsvp.err.attending": "请选择一项。",
+
+    "rsvp.sending":  "发送中…",
+    "rsvp.thanksYes":"谢谢您！我们已收到您的回复，10 月 23 日见。",
+    "rsvp.thanksNo": "谢谢您的回复，我们会想念您的。",
+    "rsvp.failed":   "发送失败，请稍后再试，或直接与我们联系。",
+    "rsvp.mailto":   "已为您打开邮件窗口，请点击发送，即可完成回复。",
+
+    "footer.blessing": "白头偕老，永结同心",
+    "footer.date":   "2026 年 10 月 23 日",
+    "footer.place":  "美国加州 Emeryville",
+    "footer.thanks": "谢谢你，与我们一同庆祝这一天。",
+
+    "gallery.alt": "婚礼相册照片"
   },
 
   /* English strings that live only in JS (status messages, alt text). */

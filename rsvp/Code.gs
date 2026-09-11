@@ -190,8 +190,24 @@ function notify_(row, wasUpdate) {
       lines.join('\n')
     );
   } catch (err) {
-    // A mail failure must never cost us the RSVP itself.
+    // A mail failure must never cost us the RSVP itself — but say so, or it
+    // fails silently. Shows under Executions in the Apps Script editor.
+    console.error('Notification email failed: ' + err);
   }
+}
+
+/**
+ * Run once from the editor to check notifications work. Unlike a real RSVP it
+ * lets errors through, and running it prompts for mail permission if needed.
+ */
+function testNotify() {
+  if (!NOTIFY_EMAIL) {
+    throw new Error('No NOTIFY_EMAIL Script Property — add one under Project Settings.');
+  }
+  console.log('Sending to: ' + NOTIFY_EMAIL);
+  console.log('Emails left today: ' + MailApp.getRemainingDailyQuota());
+  MailApp.sendEmail(NOTIFY_EMAIL, 'RSVP notifications are working',
+    'This is a test from the wedding RSVP script.');
 }
 
 function json_(obj) {

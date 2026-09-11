@@ -28,10 +28,13 @@
   color-scheme: light;
 }
 
-/* Chinese mode gets a serif that has the glyphs, and a touch more line-height. */
+/* Chinese mode gets a serif that has the glyphs, and a touch more line-height.
+   Traditional and Simplified each get their own faces: many characters are
+   shared, but the glyph shapes follow each script's standard. */
 html[lang="zh-Hant"] body { --font-body: "Noto Serif TC", "PingFang TC", "Songti TC", "Microsoft JhengHei", serif; line-height: 1.85; }
-html[lang="zh-Hant"] .hero__names,
-html[lang="zh-Hant"] .section__title { letter-spacing: .06em; }
+html[lang="zh-Hans"] body { --font-body: "Noto Serif SC", "PingFang SC", "Songti SC", "Microsoft YaHei", serif; line-height: 1.85; }
+html[lang^="zh"] .hero__names,
+html[lang^="zh"] .section__title { letter-spacing: .06em; }
 
 *, *::before, *::after { box-sizing: border-box; }
 
@@ -148,11 +151,16 @@ a:hover { color: var(--gold); }
 .lang-toggle {
   flex: none; margin-left: 1rem;
   background: none; border: 1px solid var(--line); border-radius: 999px;
-  padding: .3rem .7rem; cursor: pointer;
+  padding: .3rem .7rem;
   font-family: var(--font-body); font-size: .72rem; letter-spacing: .1em;
   color: var(--ink-faint); display: flex; gap: .3rem; align-items: center;
 }
 .lang-toggle:hover { border-color: var(--gold-soft); }
+.lang-toggle__opt {
+  background: none; border: 0; padding: 0; margin: 0; cursor: pointer;
+  font: inherit; letter-spacing: inherit; color: inherit;
+}
+.lang-toggle__opt:hover { color: var(--ink); }
 .lang-toggle__opt.is-on { color: var(--ink); font-weight: 500; }
 .lang-toggle__sep { opacity: .4; }
 
@@ -296,20 +304,6 @@ a:hover { color: var(--gold); }
   max-width: 38rem; margin: -1.75rem auto clamp(2.5rem, 6vw, 3.5rem);
   text-align: center; color: var(--ink-soft);
 }
-
-/* ============================ Story ============================ */
-.story {
-  display: grid; gap: clamp(2rem, 5vw, 3rem);
-  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
-}
-.story__item {
-  padding-top: 1.75rem;
-  border-top: 1px solid var(--line);
-}
-.story__item--now { border-top-color: var(--gold-soft); }
-.story__year { margin: 0 0 .5rem; font-size: .72rem; letter-spacing: .24em; text-transform: uppercase; color: var(--gold); }
-.story__head { font-size: 1.5rem; margin-bottom: .6rem; }
-.story__body { margin: 0; color: var(--ink-soft); }
 
 /* ============================ Details ============================ */
 .details {
@@ -514,7 +508,7 @@ a:hover { color: var(--gold); }
 
 /* ==========================================================================
    Taiwanese wedding ornaments
-   囍 double happiness, 牡丹 peony, 春仔花 silk-thread flowers, 盤長結 the
+   囍 double happiness, 春仔花 silk-thread flowers, 盤長結 the
    endless knot, 燈籠 lanterns, 祥雲 clouds and a 回紋 key-fret band.
    Auspicious red is used sparingly — as an accent against the existing
    ivory and gold, not as a takeover.
@@ -626,7 +620,6 @@ a:hover { color: var(--gold); }
   width: 2.75rem; aspect-ratio: 1;
   color: var(--red); opacity: .8;
 }
-.section__flower--peony { color: var(--red); opacity: .8; }
 
 /* ------------------------------------------------------- card brackets */
 .card { position: relative; overflow: hidden; }

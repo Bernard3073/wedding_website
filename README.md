@@ -20,15 +20,14 @@ long as any of them remain.
 | # | What to fill in | Where |
 |---|---|---|
 | 1 | **Venue name** (the address and map link are already correct) | `index.html` → search `[ Venue name ]` |
-| 2 | **Your story** — how you met, falling for each other, the proposal, and the years | `index.html` → `#story` section |
-| 3 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
-| 4 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
-| 5 | **FAQ answers** — RSVP deadline, parking, plus-ones, children, transit, contact | `index.html` → `#faq` section |
-| 6 | **Photos** | see [Gallery](#gallery) below |
-| 7 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
+| 2 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
+| 3 | **Schedule times** — only 6:00 PM is confirmed; the rest are sensible guesses | `index.html` → `#schedule` section |
+| 4 | **FAQ answers** — RSVP deadline, parking, plus-ones, children, transit, contact | `index.html` → `#faq` section |
+| 5 | **Photos** | see [Gallery](#gallery) below |
+| 6 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
 
-Each item has a Chinese counterpart with the same bracketed placeholder in
-`assets/js/i18n.js`. Update both.
+Each item has Traditional and Simplified Chinese counterparts with the same
+bracketed placeholder in `assets/js/i18n.js`. Update all three.
 
 When everything is filled in:
 
@@ -152,7 +151,6 @@ network requests, scale to any size, and take their colour from CSS.
 |---|---|---|
 | 囍 double happiness | the wedding character — 喜 doubled, one for each family | large watermark behind the hero, the red seal between the hero rules, faintly on the ceremony row of the schedule, and the favicon |
 | 燈籠 red lanterns | celebration, warding off bad luck | hanging in the hero, swaying slowly |
-| 牡丹 peony | wealth and honour; the flower of prosperity | above **Our Story**, in red |
 | 春仔花 | the wound red silk-thread flowers a Taiwanese bride and her mother wear in their hair — distinctly Taiwanese rather than generally Chinese | above **RSVP** |
 | 盤長結 endless knot | no beginning and no end | above the names in the footer, in red — Chinese knots are red silk cord |
 | 祥雲 auspicious clouds | good fortune arriving | the rule under every section heading |
@@ -232,7 +230,6 @@ The `.nojekyll` file is already there so Jekyll leaves the `assets/` folder alon
 
 - **Hero** with the names, date, a live countdown to 6:00 PM on 23 Oct 2026,
   and 囍 / lanterns (see [The decorations](#the-decorations))
-- **Our Story** — four beats on a timeline
 - **The Details** — when, where, dress code, an embedded map, and an
   "Add to calendar" button serving [`assets/wedding.ics`](#the-calendar-file)
 - **Schedule** for the evening
@@ -249,13 +246,16 @@ in the page `<title>`, and on the social share card. They are marked
 ### Bilingual
 
 Every piece of text carries a `data-i18n` key. English lives in `index.html`,
-so the page still reads correctly with JavaScript disabled; 繁體中文 lives in
-`assets/js/i18n.js`. The EN / 中文 switch in the header swaps them, remembers
-the choice in `localStorage`, and updates the `lang` attribute so the right
-font stack applies. Guests with a Chinese browser locale land on 中文 first.
+so the page still reads correctly with JavaScript disabled; 繁體中文 and
+简体中文 live in `assets/js/i18n.js`. The EN / 繁 / 简 switch in the header
+swaps them, remembers the choice in `localStorage`, and sets the `lang`
+attribute (`zh-Hant` or `zh-Hans`) so the right font stack applies. Guests with
+a Chinese browser locale land on Chinese first: 简体 for zh-CN, zh-SG and
+zh-MY, 繁體 for everything else (zh-TW, zh-HK and so on).
 
-**When you edit text, edit it in both places** — the English in `index.html`
-and the matching key in `assets/js/i18n.js`.
+**When you edit text, edit it in all three places** — the English in
+`index.html`, and the matching key in both dictionaries in
+`assets/js/i18n.js`.
 
 ### Notes on the build
 
@@ -273,7 +273,7 @@ and the matching key in `assets/js/i18n.js`.
 ```
 index.html                  the whole page
 assets/css/styles.css       all styling; palette tokens at the top in :root
-assets/js/i18n.js           繁體中文 translations
+assets/js/i18n.js           繁體中文 and 简体中文 translations
 assets/js/main.js           behaviour + the constants you need to configure
 rsvp/Code.gs                Google Apps Script that collects RSVPs into a Sheet
 assets/wedding.ics          the calendar file the "Add to calendar" button serves

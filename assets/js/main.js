@@ -55,7 +55,8 @@
   /* ---------------------------------------------------------------------
      Language toggle
      --------------------------------------------------------------------- */
-  var I18N = window.WEDDING_I18N || { zh: {}, en: {} };
+  var I18N = window.WEDDING_I18N || {};
+  var LANGS = ["en", "zh-Hant", "zh-Hans"];
   var lang = "en";
 
   // Remember the English original of every translatable node the first time
@@ -69,40 +70,43 @@
   }
 
   function setLang(next, persist) {
-    lang = next === "zh" ? "zh" : "en";
+    if (next === "zh") next = "zh-Hant";   // saved by the old two-way toggle
+    lang = LANGS.indexOf(next) >= 0 ? next : "en";
 
-    document.documentElement.lang = lang === "zh" ? "zh-Hant" : "en";
+    document.documentElement.lang = lang;
 
+    var dict = lang === "en" ? {} : (I18N[lang] || {});
     $$("[data-i18n]").forEach(function (el) {
-      var key = el.dataset.i18n;
-      var value = lang === "zh" ? (I18N.zh[key] || el.dataset.i18nEn) : el.dataset.i18nEn;
+      var value = dict[el.dataset.i18n] || el.dataset.i18nEn;
       if (value != null) el.innerHTML = value;
     });
 
     $$("[data-lang-opt]").forEach(function (el) {
-      el.classList.toggle("is-on", el.dataset.langOpt === lang);
+      var on = el.dataset.langOpt === lang;
+      el.classList.toggle("is-on", on);
+      el.setAttribute("aria-pressed", String(on));
     });
-
-    var toggle = $("#lang-toggle");
-    if (toggle) {
-      toggle.setAttribute(
-        "aria-label",
-        lang === "zh" ? "Switch to English" : "切換為中文"
-      );
-    }
 
     renderGallery();
     if (persist !== false) store("wedding-lang", lang);
   }
 
+  // Simplified for the mainland, Singapore and Malaysia; Traditional for
+  // Taiwan, Hong Kong, Macau, and a bare "zh".
+  function browserLang() {
+    var tag = navigator.language || "";
+    if (!/^zh/i.test(tag)) return "en";
+    return /^zh-(hans|cn|sg|my)\b/i.test(tag) ? "zh-Hans" : "zh-Hant";
+  }
+
   var savedLang = store("wedding-lang");
-  var browserZh = /^zh/i.test(navigator.language || "");
-  setLang(savedLang || (browserZh ? "zh" : "en"), Boolean(savedLang));
+  setLang(savedLang || browserLang(), Boolean(savedLang));
 
   var langToggle = $("#lang-toggle");
   if (langToggle) {
-    langToggle.addEventListener("click", function () {
-      setLang(lang === "en" ? "zh" : "en");
+    langToggle.addEventListener("click", function (e) {
+      var opt = e.target.closest("[data-lang-opt]");
+      if (opt) setLang(opt.dataset.langOpt);
     });
   }
 
@@ -420,7 +424,7 @@
      can't miss anything, and the sweep stops once everything is revealed.
      --------------------------------------------------------------------- */
   if (!reduceMotion) {
-    var pending = $$(".section__eyebrow, .section__title, .section__lead, .story__item, .card, .map, .timeline__item, .gallery__item, .faq__item, .form");
+    var pending = $$(".section__eyebrow, .section__title, .section__lead, .card, .map, .timeline__item, .gallery__item, .faq__item, .form");
     pending.forEach(function (el) { el.classList.add("reveal"); });
 
     var queued = false;
