@@ -74,21 +74,24 @@ The script creates two tabs. **Summary** is the one you'll live in:
 | Adults / Children | the headcount split, from the two numbers each guest enters |
 | Parties attending / declined | how many invitations have said yes and no |
 | Replies received | how many have answered at all |
-| Vegetarian / seafood / no preference | meal split, for the kitchen |
-| With dietary notes | how many wrote something in the allergies field |
 
-**RSVPs** holds one row per guest — name, email, attending, guest count, meal,
-dietary notes, song request, message, when they replied, and how many of the
-party are children. *Guests* is the whole party, children included; the
-*Children* column sits last so a Sheet that already has replies keeps its
-columns in place.
+**RSVPs** holds one row per guest — name, email, attending, guest count, how
+many of the party are children, message, and when they replied. *Guests* is
+the whole party, children included.
 
-**If you deployed the script before the children field existed**, paste in the
-new `rsvp/Code.gs`, re-deploy it as a new version (see above), then run
-`rebuildSummary` once from the editor so the Summary tab gains the Adults and
-Children rows. The Children header labels itself on the next reply. Until you
-re-deploy, the headcount still comes out right: the form sends the whole party
-as `guests`, and the old script simply ignores the children number.
+The script finds each column by its header name, not its position, so you can
+reorder or insert columns by hand without breaking anything — just keep the
+header names as they are.
+
+**If you deployed an earlier version of the script** (one that asked about
+meals, dietary notes and songs, or had no children count), paste in the new
+`rsvp/Code.gs`, re-deploy it as a new version (see above), then run
+`rebuildSummary` once from the editor so the Summary tab matches. Your
+existing replies stay put: a missing Children column is added at the end on
+the next reply, and the old Meal, Dietary and Song columns are simply no
+longer filled in — keep them for the answers already there, or delete them.
+Until you re-deploy, the headcount still comes out right: the form sends the
+whole party as `guests`, which every version reads.
 
 Two things worth knowing:
 

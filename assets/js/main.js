@@ -291,7 +291,7 @@
     var submitBtn   = $(".form__submit", form);
     var conditional = $("#if-attending");
 
-    // Show the guest/meal questions only to people who are coming.
+    // Ask how many are coming only of people who are coming.
     $$('input[name="attending"]', form).forEach(function (radio) {
       radio.addEventListener("change", function () {
         conditional.hidden = radio.value !== "yes";
@@ -338,7 +338,6 @@
       });
       if (data.attending !== "yes") {
         delete data.adults; delete data.children;
-        delete data.meal; delete data.dietary; delete data.song;
       } else {
         // `guests` stays the whole party, so the headcount needs no arithmetic
         // and a backend that predates the children field still counts right.
