@@ -11,8 +11,12 @@
  *   Summary — live totals, including the headcount you actually plan around
  */
 
-// Optional: get an email the moment someone replies. Leave '' for none.
-var NOTIFY_EMAIL = '';
+// Optional: get an email the moment someone replies. Set a Script Property
+// named NOTIFY_EMAIL (Project Settings → Script Properties), with several
+// addresses separated by commas. It lives there rather than here so the
+// addresses stay out of the public repo. Leave it unset for no email.
+var NOTIFY_EMAIL =
+  PropertiesService.getScriptProperties().getProperty('NOTIFY_EMAIL') || '';
 
 var SHEET_RSVPS   = 'RSVPs';
 var SHEET_SUMMARY = 'Summary';

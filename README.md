@@ -50,8 +50,12 @@ Free, no submission limit, and you get a spreadsheet with a live headcount.
 1. Create a new Google Sheet — this is where replies will land.
 2. **Extensions → Apps Script**. Delete the stub, paste in all of
    `rsvp/Code.gs`, and save.
-3. *(Optional)* Set `NOTIFY_EMAIL` at the top of the script to your address to
-   get an email, with the running headcount, each time someone replies.
+3. *(Optional)* To get an email, with the running headcount, each time someone
+   replies: **Project Settings** (gear icon) → **Script Properties** → **Add
+   script property**. Name it `NOTIFY_EMAIL` and give it your address — or
+   several, separated by commas. It's set there rather than in the code so the
+   addresses stay out of this public repo, and changing it later needs no
+   re-deploy.
 4. **Deploy → New deployment → Web app**, with:
    - *Execute as*: **Me**
    - *Who has access*: **Anyone** — this one matters. "Anyone with a Google
