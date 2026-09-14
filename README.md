@@ -105,6 +105,43 @@ Two things worth knowing:
 To see who hasn't replied, keep your invite list in a third tab and
 `VLOOKUP` against column C.
 
+### The calendar invite guests get
+
+Everyone who answers **yes** is emailed straight away, from your Gmail, at the
+address they entered: a short confirmation with their party size, the date,
+time and venue, and the wedding attached as a calendar file they can open to
+add it to their calendar. It's in English. Declines get nothing. The **Invite
+sent** column records when each one went out.
+
+- **Updating a reply sends it again**, as confirmation of the change. The
+  attachment carries the same event ID as `assets/wedding.ics`, so calendar
+  apps treat a second copy, or the "Add to calendar" button, as the same
+  event.
+- **It doesn't repeat the guest's name or message.** Anyone can post to the
+  web app with any address, and echoing their text would let a stranger
+  send words of their choosing from your account.
+- **A failed send never loses the RSVP.** The row is saved either way, Invite
+  sent stays blank, and the error shows under **Executions** in the editor.
+
+Three functions to run from the Apps Script editor (pick one in the function
+menu, press **Run**):
+
+| Function | When |
+|---|---|
+| `testInvite` | Sends a sample to `NOTIFY_EMAIL`, without touching the Sheet |
+| `sendCalendarInvites` | Invites everyone attending whose Invite sent is blank — run it once after deploying this, to reach guests who said yes before it existed. Safe to run again; anyone already invited is skipped |
+| `resendCalendarInvites` | Clears Invite sent and invites everyone attending again — after the date, time or venue changes |
+
+Apps Script can send to about **100 recipients a day** on a personal Google
+account, shared with the `NOTIFY_EMAIL` notes. `sendCalendarInvites` stops
+when the quota runs out and says how many are left; run it again the next day
+to finish.
+
+**Setting it up on a script you already deployed:** paste in the new
+`rsvp/Code.gs`, re-deploy it as a new version (see above), and approve the
+permission prompt if one appears. Then run `testInvite` or send yourself a test
+RSVP, and run `sendCalendarInvites` once.
+
 ### The simpler alternative
 
 If you'd rather not touch Apps Script, [Formspree](https://formspree.io),
@@ -211,10 +248,13 @@ deliberately not generated from the page, so the two can drift apart:
 |---|---|
 | Date or time | `DTSTART` / `DTEND` in `assets/wedding.ics`, `WEDDING_ISO` in `assets/js/main.js`, and the hero and Details text in `index.html` |
 | Venue | `LOCATION` and `DESCRIPTION` in `assets/wedding.ics` |
+| Either | the copy of the file in `ICS`, and the email wording in `inviteEmail_`, both in `rsvp/Code.gs` — the script can't read the site's file, so it carries its own |
 
-Bump `SEQUENCE:0` to `SEQUENCE:1` (and so on) whenever you change it after
+Bump `SEQUENCE:1` to `SEQUENCE:2` (and so on) whenever you change it after
 guests have started importing — calendar apps use that number to decide
-whether to accept an update to an event someone already has.
+whether to accept an update to an event someone already has. Bump it in both
+`assets/wedding.ics` and `rsvp/Code.gs`, re-deploy the script, then run
+`resendCalendarInvites` so everyone who emailed an invite gets the new one.
 
 The file is written to RFC 5545: CRLF line endings, lines folded at 75 octets,
 and commas escaped inside text values. If you hand-edit it, keep those intact —
@@ -262,8 +302,9 @@ In VS Code, the **Live Server** extension does the same from a right-click on
   (`Cmd+Option+I`) and toggle the device toolbar (`Cmd+Shift+M`).
 - **A test RSVP is a real RSVP.** `RSVP_ENDPOINT` points at the live Google
   Sheet whether the page runs locally or online, so a test submission lands
-  in the Sheet — and emails you, if notifications are on. Delete the row
-  afterwards so it does not inflate the headcount.
+  in the Sheet — and emails you, if notifications are on. A test that says
+  yes also emails the calendar invite to the address you entered. Delete the
+  row afterwards so it does not inflate the headcount.
 
 ## Publishing on GitHub Pages
 

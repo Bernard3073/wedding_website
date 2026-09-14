@@ -9,6 +9,9 @@
  * It keeps two tabs:
  *   RSVPs   — one row per guest, newest last
  *   Summary — live totals, including the headcount you actually plan around
+ *
+ * Everyone who replies yes is emailed a confirmation with the wedding attached
+ * as a calendar file (see "Calendar invite" below).
  */
 
 // Optional: get an email the moment someone replies. Set a Script Property
@@ -23,10 +26,11 @@ var SHEET_SUMMARY = 'Summary';
 
 // Guests is the whole party: Adults plus Children. Columns are found by these
 // header names rather than by position (see columns_), so the order here only
-// decides the layout of a brand-new Sheet.
+// decides the layout of a brand-new Sheet. Invite sent is when the guest's
+// calendar invite was emailed.
 var HEADERS = [
   'Timestamp', 'Name', 'Email', 'Attending', 'Guests', 'Adults', 'Children',
-  'Message', 'Updated'
+  'Message', 'Updated', 'Invite sent'
 ];
 
 /** Browsers POST the form here. */
@@ -67,7 +71,8 @@ function doPost(e) {
       Adults:    guests - children,   // derived, so the three always add up
       Children:  children,
       Message:   String(p.message || ''),
-      Updated:   ''
+      Updated:   '',
+      'Invite sent': ''
     };
 
     // If this email already replied, update that row rather than adding a
@@ -80,6 +85,7 @@ function doPost(e) {
       row = sheet.getRange(existing, 1, 1, width).getValues()[0];
       reply.Timestamp = row[cols.Timestamp];   // keep first-reply time
       reply.Updated   = now;                   // note the change
+      reply['Invite sent'] = row[cols['Invite sent']];
     } else {
       row = [];
       for (var i = 0; i < width; i++) row.push('');
@@ -90,6 +96,12 @@ function doPost(e) {
     else          sheet.appendRow(row);
 
     ensureSummary_(cols);
+    // Every yes gets the invite, updates included: it doubles as confirmation
+    // of what they just sent, and calendars match the event by its UID, so a
+    // second copy updates the first rather than adding another.
+    if (reply.Attending === 'yes' && email) {
+      sendInvite_(sheet, cols, existing || sheet.getLastRow(), reply);
+    }
     if (NOTIFY_EMAIL) notify_(sheet, cols, reply, Boolean(existing));
     return json_({ ok: true, updated: Boolean(existing) });
 
@@ -267,6 +279,191 @@ function testNotify() {
   console.log('Emails left today: ' + MailApp.getRemainingDailyQuota());
   MailApp.sendEmail(NOTIFY_EMAIL, 'RSVP notifications are working',
     'This is a test from the wedding RSVP script.');
+}
+
+/* ------------------------------------------------------------------ */
+/* Calendar invite                                                     */
+/* ------------------------------------------------------------------ */
+
+// A copy of assets/wedding.ics, line for line — same UID, so a guest who also
+// uses the "Add to calendar" button ends up with one event, not two. The
+// script cannot read the site's file, so if you change one, change both.
+var ICS = [
+  'BEGIN:VCALENDAR',
+  'VERSION:2.0',
+  'PRODID:-//Bo-Shiang and Suyi//Wedding 2026//EN',
+  'CALSCALE:GREGORIAN',
+  'METHOD:PUBLISH',
+  'BEGIN:VTIMEZONE',
+  'TZID:America/Los_Angeles',
+  'X-LIC-LOCATION:America/Los_Angeles',
+  'BEGIN:DAYLIGHT',
+  'TZOFFSETFROM:-0800',
+  'TZOFFSETTO:-0700',
+  'TZNAME:PDT',
+  'DTSTART:19700308T020000',
+  'RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU',
+  'END:DAYLIGHT',
+  'BEGIN:STANDARD',
+  'TZOFFSETFROM:-0700',
+  'TZOFFSETTO:-0800',
+  'TZNAME:PST',
+  'DTSTART:19701101T020000',
+  'RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU',
+  'END:STANDARD',
+  'END:VTIMEZONE',
+  'BEGIN:VEVENT',
+  'UID:wedding-2026-10-23-boshiang-suyi@wedding.invalid',
+  'DTSTAMP:20260913T000000Z',
+  'SEQUENCE:1',
+  'DTSTART;TZID=America/Los_Angeles:20261023T180000',
+  'DTEND;TZID=America/Los_Angeles:20261023T230000',
+  'SUMMARY:Bo-Shiang & Suyi\'s Wedding',
+  'LOCATION:Hong Kong East Ocean Seafood Restaurant\\, 3199 Powell St\\,',
+  '  Emeryville\\, CA 94608',
+  'DESCRIPTION:We can\'t wait to celebrate with you.\\n\\nCeremony begins at 6:00',
+  '  PM.\\n\\nHong Kong East Ocean Seafood Restaurant\\n3199 Powell St\\,',
+  '  Emeryville\\, CA 94608\\nhttps://maps.app.goo.gl/XZWvtAWs9UGRuyM69',
+  'URL:https://maps.app.goo.gl/XZWvtAWs9UGRuyM69',
+  'STATUS:CONFIRMED',
+  'TRANSP:OPAQUE',
+  'BEGIN:VALARM',
+  'ACTION:DISPLAY',
+  'DESCRIPTION:Bo-Shiang & Suyi\'s wedding is tomorrow',
+  'TRIGGER:-P1D',
+  'END:VALARM',
+  'BEGIN:VALARM',
+  'ACTION:DISPLAY',
+  'DESCRIPTION:Bo-Shiang & Suyi\'s wedding starts in 2 hours',
+  'TRIGGER:-PT2H',
+  'END:VALARM',
+  'END:VEVENT',
+  'END:VCALENDAR'
+];
+
+var MAP_URL = 'https://maps.app.goo.gl/XZWvtAWs9UGRuyM69';
+
+/**
+ * Subject and body of the invite. The guest's name and message are left out
+ * on purpose: anyone can post to this web app with any address, and echoing
+ * their text would let a stranger send words of their choosing from your
+ * Gmail.
+ */
+function inviteEmail_(adults, kids) {
+  var n = adults + kids;
+  var party = n + (n === 1 ? ' guest' : ' guests') + (kids
+    ? ' (' + adults + (adults === 1 ? ' adult, ' : ' adults, ') +
+      kids + (kids === 1 ? ' child)' : ' children)')
+    : '');
+
+  return {
+    subject: 'See you on October 23 — Bo-Shiang & Suyi\'s wedding',
+    body: [
+      'Thank you for your RSVP — we can\'t wait to celebrate with you.',
+      '',
+      'We have you down for ' + party + '.',
+      '',
+      'When: Friday, October 23, 2026, 6:00 PM Pacific Time. Doors open at 5:30 PM.',
+      'Where: Hong Kong East Ocean Seafood Restaurant',
+      '3199 Powell St, Emeryville, CA 94608',
+      MAP_URL,
+      '',
+      'The attached calendar file adds the evening to your calendar — open it on your phone or computer.',
+      '',
+      'If your plans change, fill in the RSVP form again with this email address and we\'ll update your reply.',
+      '',
+      'Bo-Shiang & Suyi'
+    ].join('\n')
+  };
+}
+
+/**
+ * Emails one guest the invite and stamps Invite sent on their row. Returns
+ * whether it went. Like notify_, a failure is logged, never thrown — it must
+ * not cost the guest their RSVP.
+ */
+function sendInvite_(sheet, cols, rowIndex, guest) {
+  try {
+    var mail = inviteEmail_(guest.Adults, guest.Children);
+    MailApp.sendEmail({
+      to:      guest.Email,
+      subject: mail.subject,
+      body:    mail.body,
+      name:    'Bo-Shiang & Suyi',
+      attachments: [Utilities.newBlob(ICS.join('\r\n') + '\r\n', 'text/calendar',
+                                      'bo-shiang-and-suyi-wedding.ics')]
+    });
+    sheet.getRange(rowIndex, cols['Invite sent'] + 1).setValue(new Date());
+    return true;
+  } catch (err) {
+    console.error('Calendar invite to ' + guest.Email + ' failed: ' + err);
+    return false;
+  }
+}
+
+/**
+ * Run from the editor to invite everyone attending whose Invite sent is blank —
+ * guests who replied before this feature existed, or whose email failed. Safe
+ * to run again: anyone already invited is skipped. It stops when the daily
+ * email quota runs out; run it again the next day to finish.
+ */
+function sendCalendarInvites() {
+  var sheet = rsvpSheet_();
+  var cols  = columns_(sheet);
+  var last  = sheet.getLastRow();
+  if (last < 2) { console.log('No replies yet.'); return; }
+
+  var vals = sheet.getRange(2, 1, last - 1, sheet.getLastColumn()).getValues();
+  var sent = 0, failed = 0, waiting = 0;
+  for (var i = 0; i < vals.length; i++) {
+    var r = vals[i];
+    var email = String(r[cols.Email]).trim();
+    if (String(r[cols.Attending]).trim().toLowerCase() !== 'yes') continue;
+    if (!email || r[cols['Invite sent']]) continue;
+    if (MailApp.getRemainingDailyQuota() < 1) { waiting++; continue; }
+
+    // Guests and Children, as in the Summary, so hand-typed rows work too.
+    var guests = Math.max(1, Number(r[cols.Guests]) || 1);
+    var kids   = Math.min(Math.max(0, Number(r[cols.Children]) || 0), guests - 1);
+    var ok = sendInvite_(sheet, cols, i + 2, {
+      Email: email, Adults: guests - kids, Children: kids
+    });
+    if (ok) sent++; else failed++;
+  }
+
+  console.log('Invites sent: ' + sent);
+  if (failed)  console.log('Failed (see errors above): ' + failed);
+  if (waiting) console.log('Out of email quota — run again tomorrow for the last ' + waiting);
+}
+
+/**
+ * Run from the editor after changing the event (bump SEQUENCE in ICS and in
+ * assets/wedding.ics first): re-sends the invite to everyone attending, so
+ * calendars that already have the event update it.
+ */
+function resendCalendarInvites() {
+  var sheet = rsvpSheet_();
+  var cols  = columns_(sheet);
+  var last  = sheet.getLastRow();
+  if (last >= 2) sheet.getRange(2, cols['Invite sent'] + 1, last - 1, 1).clearContent();
+  sendCalendarInvites();
+}
+
+/**
+ * Run once from the editor to see the invite as a guest will: sends a sample
+ * to NOTIFY_EMAIL, without touching the Sheet.
+ */
+function testInvite() {
+  if (!NOTIFY_EMAIL) {
+    throw new Error('No NOTIFY_EMAIL Script Property — add one under Project Settings.');
+  }
+  var mail = inviteEmail_(2, 1);
+  MailApp.sendEmail({
+    to: NOTIFY_EMAIL, subject: '[Test] ' + mail.subject, body: mail.body,
+    name: 'Bo-Shiang & Suyi',
+    attachments: [Utilities.newBlob(ICS.join('\r\n') + '\r\n', 'text/calendar',
+                                    'bo-shiang-and-suyi-wedding.ics')]
+  });
 }
 
 function json_(obj) {
