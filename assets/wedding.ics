@@ -23,15 +23,16 @@ END:STANDARD
 END:VTIMEZONE
 BEGIN:VEVENT
 UID:wedding-2026-10-23-boshiang-suyi@wedding.invalid
-DTSTAMP:20260910T000000Z
-SEQUENCE:0
+DTSTAMP:20260913T000000Z
+SEQUENCE:1
 DTSTART;TZID=America/Los_Angeles:20261023T180000
 DTEND;TZID=America/Los_Angeles:20261023T230000
 SUMMARY:Bo-Shiang & Suyi's Wedding
-LOCATION:3199 Powell St\, Emeryville\, CA 94608
+LOCATION:Hong Kong East Ocean Seafood Restaurant\, 3199 Powell St\,
+  Emeryville\, CA 94608
 DESCRIPTION:We can't wait to celebrate with you.\n\nCeremony begins at 6:00
-  PM — please arrive a little early.\n\n3199 Powell St\, Emeryville\, CA 
- 94608\nhttps://maps.app.goo.gl/XZWvtAWs9UGRuyM69
+  PM.\n\nHong Kong East Ocean Seafood Restaurant\n3199 Powell St\,
+  Emeryville\, CA 94608\nhttps://maps.app.goo.gl/XZWvtAWs9UGRuyM69
 URL:https://maps.app.goo.gl/XZWvtAWs9UGRuyM69
 STATUS:CONFIRMED
 TRANSP:OPAQUE

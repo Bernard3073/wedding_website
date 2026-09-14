@@ -19,11 +19,10 @@ in `[ square brackets ]`.
 
 | # | What to fill in | Where |
 |---|---|---|
-| 1 | **Venue name** (the address and map link are already correct) | `index.html` → search `[ Venue name ]` |
-| 2 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
-| 3 | **Schedule times** — only 6:00 PM is confirmed. The timeline is hidden behind a "still finalizing" note until then; delete the note and the `hidden` on the `<ol>` to publish it | `index.html` → `#schedule` section |
-| 4 | **Photos** | see [Gallery](#gallery) below |
-| 5 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
+| 1 | **Dress code** | `index.html` → search `[ Cocktail attire ]` |
+| 2 | **Schedule times** — only 6:00 PM is confirmed. The timeline is hidden behind a "still finalizing" note until then; delete the note and the `hidden` on the `<ol>` to publish it | `index.html` → `#schedule` section |
+| 3 | **Photos** | see [Gallery](#gallery) below |
+| 4 | **RSVP destination** | see [Collecting and counting RSVPs](#collecting-and-counting-rsvps) below |
 
 Each item has Traditional and Simplified Chinese counterparts with the same
 bracketed placeholder in `assets/js/i18n.js`. Update all three.
